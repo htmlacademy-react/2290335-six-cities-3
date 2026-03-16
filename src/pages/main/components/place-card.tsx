@@ -1,4 +1,4 @@
-type dataType = {
+type cardType = {
   data: {
     id: number;
     name: string;
@@ -10,7 +10,7 @@ type dataType = {
   };
 }
 
-function PlaceCard(props: dataType) {
+function PlaceCard(props: cardType) {
   const {id, name, url, price, isPremium, isFavorite, type} = props.data;
   return (
     <article className="cities__card place-card" key={id}>

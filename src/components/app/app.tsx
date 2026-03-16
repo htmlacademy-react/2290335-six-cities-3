@@ -1,15 +1,15 @@
 import Header from '../header/header';
-import MainScreen from '../../pages/main-screen/main-screen';
+import Main from '../../pages/main/main';
 
-type AppScreenProps = {
+type AppProps = {
   numberOfPlaces: number;
 }
 
-function App({numberOfPlaces}: AppScreenProps): JSX.Element {
+function App({numberOfPlaces}: AppProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Header/>
-      <MainScreen numberOfPlaces = {numberOfPlaces}/>
+      <Main numberOfPlaces = {numberOfPlaces}/>
     </div>
   );
 }

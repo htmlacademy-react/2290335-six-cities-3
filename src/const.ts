@@ -2,7 +2,9 @@ const Settings = {
   NUMBER_OF_PLACES : 312,
 };
 
-const products = [
+const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
+const cards = [
   {
     id: 1,
     name: 'Beautiful &amp; luxurious apartment at great location',
@@ -41,4 +43,4 @@ const products = [
   },
 ];
 
-export {products, Settings};
+export {cards, Settings, cities};
