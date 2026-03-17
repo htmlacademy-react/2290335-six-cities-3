@@ -5,6 +5,7 @@ import Login from '../../pages/login/login';
 import Favorites from '../../pages/favorites/favorites';
 import Offer from '../../pages/offer/offer';
 import PrivateRoute from '../private-route/private-route.tsx';
+import NotFoundedPage from '../../pages/not-founded-page/not-founded-page.tsx';
 
 type AppScreenProps = {
   numberOfPlaces: number;
@@ -21,6 +22,7 @@ function App({numberOfPlaces}: AppScreenProps): JSX.Element {
         }
         />
         <Route path={AppRoute.Offer} element={<Offer/>}/>
+        <Route path='*' element={<NotFoundedPage/>}/>
       </Routes>
     </BrowserRouter>
   );
