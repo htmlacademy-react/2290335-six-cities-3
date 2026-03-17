@@ -9,6 +9,12 @@ enum AppRoute {
   Favorites = '/favorites',
 }
 
+enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
 const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 const cards = [
@@ -50,4 +56,4 @@ const cards = [
   },
 ];
 
-export {cards, Settings, cities, AppRoute};
+export {cards, Settings, cities, AppRoute, AuthorizationStatus};
