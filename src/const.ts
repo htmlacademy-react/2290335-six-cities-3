@@ -2,6 +2,13 @@ const Settings = {
   NUMBER_OF_PLACES : 312,
 };
 
+enum AppRoute {
+  Root = '/',
+  Login = '/login',
+  Offer = '/offer',
+  Favorites = '/favorites',
+}
+
 const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 const cards = [
@@ -43,4 +50,4 @@ const cards = [
   },
 ];
 
-export {cards, Settings, cities};
+export {cards, Settings, cities, AppRoute};
