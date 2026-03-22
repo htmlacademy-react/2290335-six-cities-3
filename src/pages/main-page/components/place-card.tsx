@@ -1,17 +1,14 @@
 type cardType = {
-  data: {
-    id: number;
-    name: string;
-    url: string;
-    price: number;
-    isPremium: boolean;
-    isFavorite: boolean;
-    type: string;
-  };
+  id: number;
+  name: string;
+  url: string;
+  price: number;
+  isPremium: boolean;
+  isFavorite: boolean;
+  type: string;
 }
 
-function PlaceCard(props: cardType) {
-  const {id, name, url, price, isPremium, isFavorite, type} = props.data;
+function PlaceCard({id, name, url, price, isPremium, isFavorite, type}: cardType) {
   return (
     <article className="cities__card place-card" key={id}>
       {isPremium ?
