@@ -1,11 +1,8 @@
-import {cards, cities} from '../../const';
-import PlaceCard from './components/place-card';
+import {cities} from '../../const';
+import {AppScreenProps} from '../../types';
+import PlacesCards from './components/places-cards';
 
-type MainProps = {
-  numberOfPlaces: number;
-}
-
-const Main = ({numberOfPlaces}: MainProps): JSX.Element => (
+const Main = ({numberOfPlaces, offers}: AppScreenProps): JSX.Element => (
   <main className="page__main page__main--index">
     <h1 className="visually-hidden">Cities</h1>
     <div className="tabs">
@@ -42,10 +39,7 @@ const Main = ({numberOfPlaces}: MainProps): JSX.Element => (
             </ul>
           </form>
           <div className="cities__places-list places__list tabs__content">
-            {cards.map((card) => (
-              <PlaceCard {...card} key={card.id}/>
-            ))}
-            <PlaceCard {...cards[1]}/>
+            <PlacesCards offers = {offers}/>
           </div>
         </section>
         <div className="cities__right-section">

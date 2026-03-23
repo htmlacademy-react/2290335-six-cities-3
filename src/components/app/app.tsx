@@ -7,20 +7,18 @@ import Offer from '../../pages/offer-page/offer-page.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import NotFoundedPage from '../../pages/not-founded-page/not-founded-page.tsx';
 import Layout from '../layout/layout.tsx';
+import {AppScreenProps} from '../../types.ts';
 
-type AppScreenProps = {
-  numberOfPlaces: number;
-}
 
-function App({numberOfPlaces}: AppScreenProps): JSX.Element {
+function App({numberOfPlaces, offers}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={AppRoute.Root} element={<Layout/>}>
-          <Route index element={<Main numberOfPlaces = {numberOfPlaces}/>}/>
+          <Route index element={<Main numberOfPlaces = {numberOfPlaces} offers = {offers}/>}/>
           <Route path={AppRoute.Login} element={<Login/>}/>
           <Route path={AppRoute.Favorites} element={
-            <PrivateRoute authorizationStatus={getAuthorizationStatus()}><Favorites/></PrivateRoute>
+            <PrivateRoute authorizationStatus={getAuthorizationStatus()}><Favorites offers = {offers}/></PrivateRoute>
           }
           />
           <Route path={AppRoute.Offer} element={<Offer/>}/>

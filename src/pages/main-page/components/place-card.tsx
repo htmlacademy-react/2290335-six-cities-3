@@ -6,9 +6,10 @@ type cardType = {
   isPremium: boolean;
   isFavorite: boolean;
   type: string;
+  rating: number;
 }
 
-function PlaceCard({id, name, url, price, isPremium, isFavorite, type}: cardType) {
+function PlaceCard({id, name, url, price, isPremium, isFavorite, type, rating}: cardType) {
   return (
     <article className="cities__card place-card" key={id}>
       {isPremium ?
@@ -35,7 +36,7 @@ function PlaceCard({id, name, url, price, isPremium, isFavorite, type}: cardType
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: `${Math.round(rating) * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
