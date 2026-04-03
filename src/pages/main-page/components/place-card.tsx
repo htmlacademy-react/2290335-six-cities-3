@@ -9,11 +9,11 @@ function PlaceCard(props: TOfferComplex) {
   const handleMouseOn = () => {
     handleHover(props.offer);
   };
-  const handleMouseOff = () => {
-    handleHover();
-  };
+  // const handleMouseOff = () => {
+  //   handleHover();
+  // };
   return (
-    <article className="cities__card place-card" key={id} onMouseEnter={handleMouseOn} onMouseLeave={handleMouseOff}>
+    <article className="cities__card place-card" key={id} onMouseEnter={handleMouseOn} >
       {isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>

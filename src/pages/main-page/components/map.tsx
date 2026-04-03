@@ -1,6 +1,5 @@
 import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
-// import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../../hooks/use-map';
 import {MapProps} from '../../../types';
@@ -29,29 +28,29 @@ function Map(props: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
-  // useEffect(() => {
-  //   if (map) {
-  //     const markerLayer = layerGroup().addTo(map);
-  //     offers.forEach((offer) => {
-  //       const marker = new Marker({
-  //         lat: offer.lat,
-  //         lng: offer.lng
-  //       });
+  useEffect(() => {
+    if (map) {
+      const markerLayer = layerGroup().addTo(map);
+      offers.forEach((offer) => {
+        const marker = new Marker({
+          lat: offer.location.latitude,
+          lng: offer.location.longitude
+        });
 
-  //       marker
-  //         .setIcon(
-  //           selectedPoint !== undefined && offer.title === selectedPoint.title
-  //             ? currentCustomIcon
-  //             : defaultCustomIcon
-  //         )
-  //         .addTo(markerLayer);
-  //     });
+        marker
+          .setIcon(
+            selectedPoint !== null && offer.title === selectedPoint.title
+              ? currentCustomIcon
+              : defaultCustomIcon
+          )
+          .addTo(markerLayer);
+      });
 
-  //     return () => {
-  //       map.removeLayer(markerLayer);
-  //     };
-  //   }
-  // }, [map, offers, selectedPoint]);
+      return () => {
+        map.removeLayer(markerLayer);
+      };
+    }
+  }, [map, offers, selectedPoint]);
 
   return <section className="cities__map map" style={{height: '740px'}} ref={mapRef}></section>;
 }

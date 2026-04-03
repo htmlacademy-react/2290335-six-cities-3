@@ -14,7 +14,7 @@ function MainPage ({offers}: TOfferProps): JSX.Element {
     title: offers[0].city.name,
     lat: offers[0].city.location.latitude,
     lng: offers[0].city.location.longitude,
-    zoom: 15
+    zoom: 20
   };
 
   return (
@@ -46,7 +46,7 @@ function MainPage ({offers}: TOfferProps): JSX.Element {
             <PlaceCardsList offers={offers} handleHover={handleHover}/>
           </section>
           <div className="cities__right-section">
-            <Map offers={offers} city={city} selectedPoint={activeOffer}/>
+            <Map offers={offers} city={city} selectedPoint={activeOffer }/>
           </div>
         </div>
       </div>
