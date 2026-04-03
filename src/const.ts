@@ -1,12 +1,8 @@
-const Settings = {
-  NUMBER_OF_PLACES : 312,
-};
-
 enum AppRoute {
   Root = '/',
   Login = '/login',
   Offer = '/offer',
-  Favorite = '/favorite',
+  Favorites = '/favorites',
 }
 
 enum AuthorizationStatus {
@@ -19,4 +15,4 @@ const getAuthorizationStatus = () => AuthorizationStatus.Auth;
 
 const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-export {Settings, cities, AppRoute, AuthorizationStatus, getAuthorizationStatus};
+export {cities, AppRoute, AuthorizationStatus, getAuthorizationStatus};

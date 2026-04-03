@@ -15,22 +15,22 @@ function OfferPage({offers}: TOfferProps):JSX.Element {
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
             <div className="offer__image-wrapper">
-              <img className="offer__image" src={selectedOffer.url} alt="Photo studio"></img>
+              <img className="offer__image" src={selectedOffer.previewImage} alt="Photo studio"></img>
             </div>
             <div className="offer__image-wrapper">
-              <img className="offer__image" src={selectedOffer.url} alt="Photo studio"></img>
+              <img className="offer__image" src={selectedOffer.previewImage} alt="Photo studio"></img>
             </div>
             <div className="offer__image-wrapper">
-              <img className="offer__image" src={selectedOffer.url} alt="Photo studio"></img>
+              <img className="offer__image" src={selectedOffer.previewImage} alt="Photo studio"></img>
             </div>
             <div className="offer__image-wrapper">
-              <img className="offer__image" src={selectedOffer.url} alt="Photo studio"></img>
+              <img className="offer__image" src={selectedOffer.previewImage} alt="Photo studio"></img>
             </div>
             <div className="offer__image-wrapper">
-              <img className="offer__image" src={selectedOffer.url} alt="Photo studio"></img>
+              <img className="offer__image" src={selectedOffer.previewImage} alt="Photo studio"></img>
             </div>
             <div className="offer__image-wrapper">
-              <img className="offer__image" src={selectedOffer.url} alt="Photo studio"></img>
+              <img className="offer__image" src={selectedOffer.previewImage} alt="Photo studio"></img>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@ function OfferPage({offers}: TOfferProps):JSX.Element {
             </div>
             <div className="offer__name-wrapper">
               <h1 className="offer__name">
-                {selectedOffer.name}
+                {selectedOffer.title}
               </h1>
               <button className="offer__bookmark-button button" type="button">
                 <svg className="offer__bookmark-icon" width="31" height="33">

@@ -1,6 +1,6 @@
 import {TOffer} from '../../../types';
 
-const FavoriteCard = ({id, name, url, price, isPremium, isFavorite, type, rating}: TOffer) => (
+const FavoriteCard = ({id, title, previewImage, price, isPremium, isFavorite, type, rating}: TOffer) => (
   <article className="favorites__card place-card" key={id}>
     {isPremium ?
       <div className="place-card__mark">
@@ -8,7 +8,7 @@ const FavoriteCard = ({id, name, url, price, isPremium, isFavorite, type, rating
       </div> : ''}
     <div className="favorites__image-wrapper place-card__image-wrapper">
       <a href="#">
-        <img className="place-card__image" src={url} width="150" height="110" alt="Place image"></img>
+        <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place image"></img>
       </a>
     </div>
     <div className="favorites__card-info place-card__info">
@@ -31,7 +31,7 @@ const FavoriteCard = ({id, name, url, price, isPremium, isFavorite, type, rating
         </div>
       </div>
       <h2 className="place-card__name">
-        <a href="#">{name}</a>
+        <a href="#">{title}</a>
       </h2>
       <p className="place-card__type">{type}</p>
     </div>

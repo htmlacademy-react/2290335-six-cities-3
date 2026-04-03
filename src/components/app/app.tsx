@@ -7,16 +7,16 @@ import OfferPage from '../../pages/offer-page/offer-page.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import NotFoundedPage from '../../pages/not-founded-page/not-founded-page.tsx';
 import Layout from '../layout/layout.tsx';
-import {TScreenProps} from '../../types.ts';
+import {TOfferProps} from '../../types.ts';
 
 
-function App({numberOfPlaces, offers}: TScreenProps): JSX.Element {
+function App({offers}: TOfferProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={AppRoute.Root} element={<Layout/>}>
           <Route index
-            element={<MainPage numberOfPlaces = {numberOfPlaces} offers = {offers}/>}
+            element={<MainPage offers = {offers}/>}
           />
           <Route path={AppRoute.Login}
             element={<LoginPage/>}
@@ -26,7 +26,7 @@ function App({numberOfPlaces, offers}: TScreenProps): JSX.Element {
               element={<OfferPage offers = {offers} />}
             />
           </Route>
-          <Route path={AppRoute.Favorite}
+          <Route path={AppRoute.Favorites}
             element={<PrivateRoute authorizationStatus={getAuthorizationStatus()}><FavoritePage offers = {offers}/></PrivateRoute>}
           />
           <Route path='*'
