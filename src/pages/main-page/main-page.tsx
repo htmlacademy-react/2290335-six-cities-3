@@ -1,24 +1,21 @@
-import {cities} from '../../const';
+import CitiesList from './components/cities-list';
 import {TOfferProps} from '../../types';
 import PlaceCardsList from './components/place-cards-list';
-
+import Map from './components/map';
 
 function MainPage ({offers}: TOfferProps): JSX.Element {
+  const city = {
+    title: offers[0].city.name,
+    lat: offers[0].city.location.latitude,
+    lng: offers[0].city.location.longitude,
+    zoom: offers[0].city.location.zoom
+  };
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
-        <section className="locations container">
-          <ul className="locations__list tabs__list">
-            {cities.map((city) => (
-              <li className="locations__item" key={city}>
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>{city}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <CitiesList/>
       </div>
       <div className="cities">
         <div className="cities__places-container container">
@@ -43,7 +40,7 @@ function MainPage ({offers}: TOfferProps): JSX.Element {
             <PlaceCardsList offers={offers}/>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            {/* <Map offers={offers} city={city}/> */}
           </div>
         </div>
       </div>

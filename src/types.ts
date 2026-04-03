@@ -31,4 +31,24 @@ export type TOfferComplex = {
   handleHover: (offer?:TOffer) => void;
 }
 
+export type City = {
+  title: string;
+  lat: number;
+  lng: number;
+  zoom: number;
+};
+
+export type Point = {
+  title: string;
+  lat: number;
+  lng: number;
+};
+
+export type Points = Point[];
+
+export type MapProps = {
+  city: City;
+  offers: TOffer[];
+  selectedPoint: Point | undefined;
+};
 

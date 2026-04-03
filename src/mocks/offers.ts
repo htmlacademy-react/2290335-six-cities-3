@@ -15,8 +15,8 @@ const offers: TOffer[] = [
       }
     },
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 8
     },
     isPremium: true,
@@ -38,8 +38,8 @@ const offers: TOffer[] = [
       }
     },
     location: {
-      latitude: 52.373079,
-      longitude: 4.892647,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
       zoom: 8
     },
     isFavorite: true,
@@ -61,8 +61,8 @@ const offers: TOffer[] = [
       }
     },
     location: {
-      latitude: 52.359994,
-      longitude: 4.885219,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 8
     },
     isFavorite: false,
@@ -84,8 +84,8 @@ const offers: TOffer[] = [
       }
     },
     location: {
-      latitude: 52.375218,
-      longitude: 4.883977,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 8
     },
     isFavorite: false,
