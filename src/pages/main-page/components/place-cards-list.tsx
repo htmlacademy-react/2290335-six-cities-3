@@ -1,7 +1,7 @@
 import {TOffer, TOfferComplexSecond} from '../../../types';
 import PlaceCard from './place-card';
 
-function PlaceCardsList({offers, handleHover}: TOfferComplexSecond) {
+function PlaceCardsList({offers, handleHover}: TOfferComplexSecond):JSX.Element {
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((offer: TOffer) => (
