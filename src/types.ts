@@ -84,6 +84,7 @@ export type MapProps = {
   city: City;
   offers: TOffer[];
   selectedPoint?: TOffer;
+  selectedOffer?: TOffer;
 };
 
 export type TComment = {

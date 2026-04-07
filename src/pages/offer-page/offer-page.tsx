@@ -1,10 +1,12 @@
 import {useParams} from 'react-router-dom';
-import {TOffer, TComment} from '../../types';
+import {TOffer, TComment, City, Point, TCityLeaflet, CityFromServer} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
 import NotFoundedPage from '../not-founded-page/not-founded-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
 import NearPlacesSection from './components/near-places-section/near-places-section';
+import MapOffer from './components/offer-map';
+import {CITIES_MOCK} from '../../const';
 
 const SELECTED_OFFER_IMAGES_ARRAY_LENGTH = 4;
 
@@ -20,6 +22,21 @@ function OfferPage({offers, comments}: TOffersCommentsProps):JSX.Element {
     id: `id-${index}`,
     src: selectedOffer.previewImage,
   }));
+  const cityMockAmsterdam: CityFromServer | City = CITIES_MOCK[3];
+  const adaptToMap = (city: City) => {
+    const adaptedCity:Point = {...city,
+      'title': city.name,
+      'lat': city.location.latitude,
+      'lng': city.location.longitude,
+      'zoom': city.location.zoom
+    };
+
+    delete adaptedCity.name;
+    delete adaptedCity.location;
+
+    return adaptedCity;
+  };
+  const lol:TCityLeaflet = adaptToMap(cityMockAmsterdam);
 
   return selectedOffer ? (
     <main className="page__main page__main--offer">
@@ -73,7 +90,7 @@ function OfferPage({offers, comments}: TOffersCommentsProps):JSX.Element {
             <ReviewsSection comments = {comments}/>
           </div>
         </div>
-        <section className="offer__map map"></section>
+        <MapOffer offers={offers} city={lol} selectedOffer = {selectedOffer}/>
       </section>
       <NearPlacesSection selectedOffer = {selectedOffer} offers = {offers}/>
     </main>
