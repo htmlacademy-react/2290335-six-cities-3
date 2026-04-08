@@ -2,8 +2,8 @@ import {useState} from 'react';
 import {TOfferProps, TOffer, City, CityFromServer, Point, TCityLeaflet} from '../../types';
 import {CITIES_MOCK} from '../../const';
 import CitiesList from './components/cities-list';
-import PlaceCardsList from './components/place-cards-list';
-import Map from './components/map';
+import PlaceCardsList from '../../components/place-card/place-cards-list';
+import Map from '../../components/map/map';
 
 function MainPage ({offers}: TOfferProps): JSX.Element {
   const [activeOffer, setActiveOffer] = useState<TOffer>();

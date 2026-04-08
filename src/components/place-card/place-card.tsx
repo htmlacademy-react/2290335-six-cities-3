@@ -1,17 +1,14 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../../const';
-import {TOfferComplex} from '../../../types';
+import {AppRoute} from '../../const';
+import {TOfferComplex} from '../../types';
 
 function PlaceCard(props: TOfferComplex) {
-
   const {id, title, previewImage, price, isPremium, isFavorite, type, rating} = props.offer;
   const handleHover = props.handleHover;
   const handleMouseOn = () => {
     handleHover(props.offer);
   };
-  // const handleMouseOff = () => {
-  //   handleHover();
-  // };
+
   return (
     <article className="cities__card place-card" key={id} onMouseEnter={handleMouseOn} >
       {isPremium ?
@@ -43,9 +40,9 @@ function PlaceCard(props: TOfferComplex) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#"/>{title}
+          <a href="#">{title}</a>
         </h2>
-        <p className="place-card__type"/>{type}
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );
