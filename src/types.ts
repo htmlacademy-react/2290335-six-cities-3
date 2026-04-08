@@ -36,20 +36,8 @@ export type TOfferComplexSecond = {
   handleHover: (offer?:TOffer) => void;
 }
 
-export type City = {
-  title: string;
-  lat: number;
-  lng: number;
-  zoom: number;
-  name: string;
-  location: {
-      latitude: number;
-      longitude: number;
-      zoom: number;
-    };
-};
 
-export type CityFromServer = {
+export type City = {
   name: string;
   location: {
     latitude: number;
@@ -57,13 +45,6 @@ export type CityFromServer = {
     zoom: number;
   };
 };
-
-export type TCityLeaflet = {
-  title: string;
-  lat: number;
-  lng: number;
-  zoom : number;
-}
 
 export type Point = {
   title: string;

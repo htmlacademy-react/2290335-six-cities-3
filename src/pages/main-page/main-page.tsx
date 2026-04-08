@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {TOfferProps, TOffer, City, CityFromServer, Point, TCityLeaflet} from '../../types';
+import {TOfferProps, TOffer, City} from '../../types';
 import {CITIES_MOCK} from '../../const';
 import CitiesList from './components/cities-list';
 import PlaceCardsList from '../../components/place-card/place-cards-list';
@@ -10,22 +10,8 @@ function MainPage ({offers}: TOfferProps): JSX.Element {
   const handleHover = (offer?: TOffer) => {
     setActiveOffer(offer);
   };
-
-  const cityMockAmsterdam: CityFromServer | City = CITIES_MOCK[3];
-  const adaptToMap = (city: City) => {
-    const adaptedCity:Point = {...city,
-      'title': city.name,
-      'lat': city.location.latitude,
-      'lng': city.location.longitude,
-      'zoom': city.location.zoom
-    };
-
-    delete adaptedCity.name;
-    delete adaptedCity.location;
-
-    return adaptedCity;
-  };
-  const lol:TCityLeaflet = adaptToMap(cityMockAmsterdam);
+  // Мокковый Амстердам
+  const cityMockAmsterdam: City = CITIES_MOCK[3];
 
   return (
     <main className="page__main page__main--index">
@@ -56,7 +42,7 @@ function MainPage ({offers}: TOfferProps): JSX.Element {
             <PlaceCardsList offers={offers} handleHover={handleHover}/>
           </section>
           <div className="cities__right-section">
-            <Map offers={offers} city={lol} selectedPoint={activeOffer }/>
+            <Map offers={offers} city={cityMockAmsterdam} selectedPoint={activeOffer }/>
           </div>
         </div>
       </div>
