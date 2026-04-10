@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {TOffer, TComment, City} from '../../types';
+import {TOfferExtended, TComment, City} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
 import NotFoundedPage from '../not-founded-page/not-founded-page';
@@ -9,40 +9,32 @@ import NearPlacesSection from './components/near-places-section';
 import Map from '../../components/map/map';
 import {CITIES_MOCK, ClassNamesForMap} from '../../const';
 
-const SELECTED_OFFER_IMAGES_ARRAY_LENGTH = 4;
-
 type TOffersCommentsProps = {
-  offers: TOffer[];
+  extendedOffers: TOfferExtended[];
   comments: TComment[];
 }
 
-function OfferPage({offers, comments}: TOffersCommentsProps):JSX.Element {
-  const [, setActiveOffer] = useState<TOffer>();
-  const handleHover = (offer?: TOffer) => {
+function OfferPage({extendedOffers, comments}: TOffersCommentsProps):JSX.Element {
+  const [, setActiveOffer] = useState<TOfferExtended>();
+  const handleHover = (offer?: TOfferExtended) => {
     setActiveOffer(offer);
   };
 
   const params = useParams();
-  const selectedOffer = offers.find((item) => item.id === Number(params.id)) as TOffer;
-  const imagesOfSelectedOffer = Array.from({ length: SELECTED_OFFER_IMAGES_ARRAY_LENGTH }, (_, index) => ({
-    id: `id-${index}`,
-    src: selectedOffer.previewImage,
-  }));
-  const cityMockAmsterdam: City = CITIES_MOCK[3];
+  const selectedOffer = extendedOffers.find((item) => item.id === Number(params.id)) as TOfferExtended;
 
+  const cityMockAmsterdam: City = CITIES_MOCK[3];
   return selectedOffer ? (
     <main className="page__main page__main--offer">
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            {imagesOfSelectedOffer.map((item) => (
-              <div className="offer__image-wrapper" key={item.id}>
-                <img className="offer__image"
-                  src={item.src}
-                  alt="Photo studio"
-                />
-              </div>
-            ))}
+            <div className="offer__image-wrapper" key={selectedOffer.id}>
+              <img className="offer__image"
+                src={selectedOffer.images[0]}
+                alt="Photo studio"
+              />
+            </div>
           </div>
         </div>
         <div className="offer__container container">
@@ -70,8 +62,8 @@ function OfferPage({offers, comments}: TOffersCommentsProps):JSX.Element {
             </div>
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">{selectedOffer.type}</li>
-              <li className="offer__feature offer__feature--bedrooms">3 Bedrooms</li>
-              <li className="offer__feature offer__feature--adults"> Max 4 adults</li>
+              <li className="offer__feature offer__feature--bedrooms">{selectedOffer.bedrooms} Bedrooms</li>
+              <li className="offer__feature offer__feature--adults"> Max {selectedOffer.maxAdults} adults</li>
             </ul>
             <div className="offer__price">
               <b className="offer__price-value">&euro;{selectedOffer.price}</b>
@@ -82,9 +74,9 @@ function OfferPage({offers, comments}: TOffersCommentsProps):JSX.Element {
             <ReviewsSection comments = {comments}/>
           </div>
         </div>
-        <Map offers={offers} city={cityMockAmsterdam} selectedOffer = {selectedOffer} ClassNamesForMap = {ClassNamesForMap.Offer}/>
+        <Map offers = {extendedOffers} city = {cityMockAmsterdam} selectedOffer = {selectedOffer} ClassNamesForMap = {ClassNamesForMap.Offer}/>
       </section>
-      <NearPlacesSection handleHover = {handleHover} offers = {offers}/>
+      <NearPlacesSection handleHover = {handleHover} offers = {extendedOffers}/>
     </main>
   ) : (
     <NotFoundedPage/>

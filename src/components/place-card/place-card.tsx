@@ -4,6 +4,7 @@ import {TOfferComplex} from '../../types';
 
 function PlaceCard(props: TOfferComplex) {
   const {id, title, previewImage, price, isPremium, isFavorite, type, rating} = props.offer;
+
   const handleHover = props.handleHover;
   const handleMouseOn = () => {
     handleHover(props.offer);

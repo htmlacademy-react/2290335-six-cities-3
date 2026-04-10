@@ -7,14 +7,15 @@ import OfferPage from '../../pages/offer-page/offer-page.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import NotFoundedPage from '../../pages/not-founded-page/not-founded-page.tsx';
 import Layout from '../layout/layout.tsx';
-import {TOffer, TComment} from '../../types.ts';
+import {TOffer, TComment, TOfferExtended} from '../../types.ts';
 
 type TOffersCommentsProps = {
   offers: TOffer[];
   comments: TComment[];
+  extendedOffers: TOfferExtended[];
 }
 
-function App({offers, comments}: TOffersCommentsProps): JSX.Element {
+function App({offers, comments, extendedOffers}: TOffersCommentsProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -27,7 +28,7 @@ function App({offers, comments}: TOffersCommentsProps): JSX.Element {
           />
           <Route path={AppRoute.Offer}>
             <Route path=":id"
-              element={<OfferPage offers = {offers} comments = {comments}/>}
+              element={<OfferPage extendedOffers = {extendedOffers} comments = {comments}/>}
             />
           </Route>
           <Route path={AppRoute.Favorites}

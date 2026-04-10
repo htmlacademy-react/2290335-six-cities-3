@@ -1,6 +1,6 @@
 import {useLocation} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {TOffer, TOfferComplexSecond} from '../../types';
+import {TOffer, TOfferComplexSecond, TOfferExtended} from '../../types';
 import PlaceCard from './place-card';
 
 const getClassNameByPath = (pathname: AppRoute) => {
@@ -18,7 +18,7 @@ const PlaceCardsList = ({offers, handleHover}: TOfferComplexSecond):JSX.Element 
   const {className} = getClassNameByPath(pathname as AppRoute);
   return (
     <div className={`${className} places__list`}>
-      {offers.map((offer: TOffer) => (
+      {offers.map((offer: TOffer | TOfferExtended) => (
         <PlaceCard offer={offer} handleHover={handleHover} key={offer.id}/>
       ))}
     </div>
