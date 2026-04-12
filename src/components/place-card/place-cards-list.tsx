@@ -1,25 +1,22 @@
-import {useLocation} from 'react-router-dom';
-import {AppRoute} from '../../const';
-import {TOffer, TOfferComplexSecond, TOfferExtended} from '../../types';
+import {TOffer} from '../../types';
 import PlaceCard from './place-card';
 
-const getClassNameByPath = (pathname: AppRoute) => {
-  let className = '';
-  if (pathname === AppRoute.Root) {
-    className = 'cities__places-list tabs__content';
-  } else {
-    className = 'near-places__list';
-  }
-  return {className};
-};
+type TPlaceCardsListProps = {
+  type: 'root' | 'offer';
+  offers: TOffer[];
+  handleHover: (offer?:TOffer) => void;
+}
 
-const PlaceCardsList = ({offers, handleHover}: TOfferComplexSecond):JSX.Element => {
-  const {pathname} = useLocation();
-  const {className} = getClassNameByPath(pathname as AppRoute);
+const PlaceCardsList = ({type, offers, handleHover}: TPlaceCardsListProps):JSX.Element => {
+  const className = type === 'root' ? 'cities__places-list tabs__content' : 'near-places__list';
   return (
     <div className={`${className} places__list`}>
-      {offers.map((offer: TOffer | TOfferExtended) => (
-        <PlaceCard offer={offer} handleHover={handleHover} key={offer.id}/>
+      {offers.map((offer: TOffer) => (
+        <PlaceCard
+          offer={offer}
+          handleHover={handleHover}
+          key={offer.id}
+        />
       ))}
     </div>
   );

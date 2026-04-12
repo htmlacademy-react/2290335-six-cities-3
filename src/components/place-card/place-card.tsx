@@ -1,8 +1,13 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {TOfferComplex} from '../../types';
+import {TOffer} from '../../types';
 
-function PlaceCard(props: TOfferComplex) {
+type TPlaceCardProps = {
+  offer: TOffer;
+  handleHover: (offer?:TOffer) => void;
+}
+
+function PlaceCard(props: TPlaceCardProps) {
   const {id, title, previewImage, price, isPremium, isFavorite, type, rating} = props.offer;
 
   const handleHover = props.handleHover;
@@ -12,10 +17,10 @@ function PlaceCard(props: TOfferComplex) {
 
   return (
     <article className="cities__card place-card" key={id} onMouseEnter={handleMouseOn} >
-      {isPremium ?
+      {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
-        </div> : ''}
+        </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Offer}/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"></img>

@@ -59,16 +59,6 @@ export type TOfferProps = {
   offers: TOffer[];
 }
 
-export type TOfferComplex = {
-  offer: TOffer | TOfferExtended;
-  handleHover: (offer?:TOffer) => void;
-}
-
-export type TOfferComplexSecond = {
-  offers: TOffer[] |TOfferExtended[];
-  handleHover: (offer?:TOffer | TOfferExtended) => void;
-}
-
 export type City = {
   name: string;
   location: {
@@ -91,12 +81,10 @@ export type Point = {
   };
 };
 
-export type Points = Point[];
-
 export type MapProps = {
   city: City;
   offers: TOffer[] | TOfferExtended[];
-  ClassNamesForMap: string;
+  classNamesForMap: string;
   selectedPoint?: TOffer | TOfferExtended;
   selectedOffer?: TOffer | TOfferExtended;
 };

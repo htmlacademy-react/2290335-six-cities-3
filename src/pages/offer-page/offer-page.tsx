@@ -1,23 +1,24 @@
 import {useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {TOfferExtended, TComment, City} from '../../types';
+import {TOffer, TOfferExtended, TComment, City} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
 import NotFoundedPage from '../not-founded-page/not-founded-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
 import NearPlacesSection from './components/near-places-section';
 import Map from '../../components/map/map';
-import {CITIES_MOCK, ClassNamesForMap} from '../../const';
+import {CITIES_MOCK, classNamesForMap} from '../../const';
 
-type TOffersCommentsProps = {
+type TComplicatedProps = {
+  otherOffers: TOffer[];
   extendedOffers: TOfferExtended[];
   comments: TComment[];
 }
 
-function OfferPage({extendedOffers, comments}: TOffersCommentsProps):JSX.Element {
-  const [, setActiveOffer] = useState<TOfferExtended>();
-  const handleHover = (offer?: TOfferExtended) => {
-    setActiveOffer(offer);
+function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):JSX.Element {
+  const [activeOffer, setActiveOffer] = useState<TOffer>();
+  const handleHover = (offer?: TOffer) => {
+    setActiveOffer(offer as TOffer);
   };
 
   const params = useParams();
@@ -74,9 +75,17 @@ function OfferPage({extendedOffers, comments}: TOffersCommentsProps):JSX.Element
             <ReviewsSection comments = {comments}/>
           </div>
         </div>
-        <Map offers = {extendedOffers} city = {cityMockAmsterdam} selectedOffer = {selectedOffer} ClassNamesForMap = {ClassNamesForMap.Offer}/>
+        <Map
+          offers = {otherOffers}
+          city = {cityMockAmsterdam}
+          selectedPoint = {activeOffer}
+          classNamesForMap = {classNamesForMap.Offer}
+        />
       </section>
-      <NearPlacesSection handleHover = {handleHover} offers = {extendedOffers}/>
+      <NearPlacesSection
+        otherOffers = {otherOffers}
+        handleHover = {handleHover}
+      />
     </main>
   ) : (
     <NotFoundedPage/>

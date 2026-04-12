@@ -13,7 +13,7 @@ enum AuthorizationStatus {
 
 const getAuthorizationStatus = () => AuthorizationStatus.Auth;
 
-enum ClassNamesForMap {
+enum classNamesForMap {
   Root = 'cities__map',
   Offer = 'offer__map'
 }
@@ -69,4 +69,4 @@ const CITIES_MOCK = [
   },
 ];
 
-export {CITIES_MOCK, AppRoute, AuthorizationStatus, getAuthorizationStatus, ClassNamesForMap};
+export {CITIES_MOCK, AppRoute, AuthorizationStatus, getAuthorizationStatus, classNamesForMap};

@@ -11,11 +11,12 @@ import {TOffer, TComment, TOfferExtended} from '../../types.ts';
 
 type TOffersCommentsProps = {
   offers: TOffer[];
-  comments: TComment[];
   extendedOffers: TOfferExtended[];
+  otherOffers: TOffer[];
+  comments: TComment[];
 }
 
-function App({offers, comments, extendedOffers}: TOffersCommentsProps): JSX.Element {
+function App({offers, extendedOffers, otherOffers, comments}: TOffersCommentsProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -28,7 +29,13 @@ function App({offers, comments, extendedOffers}: TOffersCommentsProps): JSX.Elem
           />
           <Route path={AppRoute.Offer}>
             <Route path=":id"
-              element={<OfferPage extendedOffers = {extendedOffers} comments = {comments}/>}
+              element={
+                <OfferPage
+                  extendedOffers = {extendedOffers}
+                  otherOffers = {otherOffers}
+                  comments = {comments}
+                />
+              }
             />
           </Route>
           <Route path={AppRoute.Favorites}
