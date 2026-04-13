@@ -23,6 +23,7 @@ function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):J
 
   const params = useParams();
   const selectedOffer = extendedOffers.find((item) => item.id === Number(params.id)) as TOfferExtended;
+  const {id, title, type, price, isFavorite, isPremium, rating, description, bedrooms, host, goods, images, maxAdults} = selectedOffer;
 
   const cityMockAmsterdam: City = CITIES_MOCK[3];
   return selectedOffer ? (
@@ -30,9 +31,9 @@ function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):J
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            <div className="offer__image-wrapper" key={selectedOffer.id}>
+            <div className="offer__image-wrapper" key={id}>
               <img className="offer__image"
-                src={selectedOffer.images[0]}
+                src={images[0]}
                 alt="Photo studio"
               />
             </div>
@@ -40,12 +41,12 @@ function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):J
         </div>
         <div className="offer__container container">
           <div className="offer__wrapper">
-            {selectedOffer.isPremium && (
+            {isPremium && (
               <div className="offer__mark"><span/>Premium</div>
             )}
             <div className="offer__name-wrapper">
-              <h1 className="offer__name">{selectedOffer.title}</h1>
-              {selectedOffer.isFavorite && (
+              <h1 className="offer__name">{title}</h1>
+              {isFavorite && (
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"/>
@@ -56,22 +57,24 @@ function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):J
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{width: `${Math.round(selectedOffer.rating) * 20}%`}}/>
+                <span style={{width: `${Math.round(rating) * 20}%`}}/>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="offer__rating-value rating__value">{selectedOffer.rating}</span>
+              <span className="offer__rating-value rating__value">{rating}</span>
             </div>
             <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire">{selectedOffer.type}</li>
-              <li className="offer__feature offer__feature--bedrooms">{selectedOffer.bedrooms} Bedrooms</li>
-              <li className="offer__feature offer__feature--adults"> Max {selectedOffer.maxAdults} adults</li>
+              <li className="offer__feature offer__feature--entire">{type}</li>
+              <li className="offer__feature offer__feature--bedrooms">{bedrooms} Bedrooms</li>
+              <li className="offer__feature offer__feature--adults"> Max {maxAdults} adults</li>
             </ul>
             <div className="offer__price">
-              <b className="offer__price-value">&euro;{selectedOffer.price}</b>
+              <b className="offer__price-value">&euro;{price}</b>
               <span className="offer__price-text">&nbsp;night</span>
             </div>
-            <OfferInside/>
-            <OfferHost/>
+            <OfferInside goods = {goods}/>
+            <OfferHost host = {host}
+              description = {description}
+            />
             <ReviewsSection comments = {comments}/>
           </div>
         </div>

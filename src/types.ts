@@ -45,7 +45,7 @@ export type TOfferExtended = {
   rating: number;
   description: string;
   bedrooms: number;
-  goods: [string];
+  goods: string[];
   host: {
     name: string;
     avatarUrl: string;

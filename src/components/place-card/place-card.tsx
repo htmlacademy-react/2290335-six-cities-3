@@ -3,30 +3,43 @@ import {AppRoute} from '../../const';
 import {TOffer} from '../../types';
 
 type TPlaceCardProps = {
+  typeClassName: 'root' | 'offer' | 'favorites';
   offer: TOffer;
   handleHover: (offer?:TOffer) => void;
 }
 
-function PlaceCard(props: TPlaceCardProps) {
-  const {id, title, previewImage, price, isPremium, isFavorite, type, rating} = props.offer;
+function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
+  let className;
+  let widthPictureCardImage = 260;
+  let heigthPictureCardImage = 200;
+  switch (true) {
+    case typeClassName === 'root': className = 'cities';
+      break;
+    case typeClassName === 'offer': className = 'near-places';
+      break;
+    case typeClassName === 'favorites': className = 'favorites';
+      widthPictureCardImage = 150;
+      heigthPictureCardImage = 110;
+      break;
+  }
 
-  const handleHover = props.handleHover;
+  const {id, title, previewImage, price, isPremium, isFavorite, type, rating} = offer;
   const handleMouseOn = () => {
-    handleHover(props.offer);
+    handleHover(offer);
   };
 
   return (
-    <article className="cities__card place-card" key={id} onMouseEnter={handleMouseOn} >
+    <article className={`${className}__card place-card`} key={id} onMouseEnter={handleMouseOn} >
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Offer}/${id}`}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"></img>
+          <img className="place-card__image" src={previewImage} width={widthPictureCardImage} height={heigthPictureCardImage} alt="Place image"></img>
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className={`${className}__card-info place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>

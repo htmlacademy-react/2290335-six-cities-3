@@ -19,13 +19,22 @@ const extendedOffers: TOfferExtended[] = [
       longitude: 4.673877537499948,
       zoom: 8
     },
-    isFavorite: false,
-    isPremium: false,
+    isFavorite: true,
+    isPremium: true,
     rating: 4,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     bedrooms: 3,
     goods: [
-      'Heating'
+      'Wi-Fi',
+      'Heating',
+      'Kitchen',
+      'Fridge',
+      'Washing machine',
+      'Coffee machine',
+      'Dishwasher',
+      'Towels',
+      'Baby seat',
+      'Cabel TV'
     ],
     host: {
       name: 'Oliver Conner',

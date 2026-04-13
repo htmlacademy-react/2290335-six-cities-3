@@ -39,7 +39,13 @@ function App({offers, extendedOffers, otherOffers, comments}: TOffersCommentsPro
             />
           </Route>
           <Route path={AppRoute.Favorites}
-            element={<PrivateRoute authorizationStatus={getAuthorizationStatus()}><FavoritePage offers = {offers}/></PrivateRoute>}
+            element={
+              <PrivateRoute
+                authorizationStatus = {getAuthorizationStatus()}
+              >
+                <FavoritePage offers = {offers}/>
+              </PrivateRoute>
+            }
           />
           <Route path='*'
             element={<NotFoundedPage/>}
