@@ -1,6 +1,6 @@
 import {TOffer} from '../types';
 
-const offers: TOffer[] = [
+const otherOffers: TOffer[] = [
   {
     id: 1,
     title: 'Beautiful &amp; luxurious apartment at great location',
@@ -70,29 +70,6 @@ const offers: TOffer[] = [
     rating: 4.9,
     previewImage: 'img/apartment-02.jpg',
   },
-  {
-    id: 4,
-    title: 'Nice, cozy, warm big bed apartment',
-    type: 'Apartment',
-    price: 180,
-    city: {
-      name: 'Amsterdam',
-      location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 8
-      }
-    },
-    location: {
-      latitude: 52.3809553943508,
-      longitude: 4.939309666406198,
-      zoom: 8
-    },
-    isFavorite: false,
-    isPremium: false,
-    rating: 3.8,
-    previewImage: 'img/apartment-03.jpg',
-  },
 ];
 
-export {offers};
+export {otherOffers};

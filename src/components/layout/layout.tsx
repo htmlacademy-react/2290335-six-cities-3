@@ -13,7 +13,7 @@ const getLayoutState = (pathname: AppRoute) => {
   } else if (pathname === AppRoute.Login) {
     rootClassName = 'page page--gray page--login';
     shouldRenderUser = false;
-  } else if (pathname === AppRoute.Favorite) {
+  } else if (pathname === AppRoute.Favorites) {
     shouldRenderFooter = true;
   }
 

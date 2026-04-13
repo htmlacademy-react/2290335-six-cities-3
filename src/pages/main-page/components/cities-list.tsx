@@ -1,12 +1,12 @@
-import {cities} from '../../../const';
+import {CITIES_MOCK} from '../../../const';
 
 const CitiesList = () => (
   <section className="locations container">
     <ul className="locations__list tabs__list">
-      {cities.map((city) => (
-        <li className="locations__item" key={city}>
+      {CITIES_MOCK.map((city) => (
+        <li className="locations__item" key={city.name}>
           <a className="locations__item-link tabs__item" href="#">
-            <span>{city}</span>
+            <span>{city.name}</span>
           </a>
         </li>
       ))}

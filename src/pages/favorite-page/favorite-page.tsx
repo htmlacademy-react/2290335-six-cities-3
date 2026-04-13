@@ -1,34 +1,42 @@
-import FavoriteCard from './components/favorite-card';
-import {TOfferProps} from '../../types';
+import {useState} from 'react';
+import PlaceCardsList from '../../components/place-card/place-cards-list';
+import {TOffer} from '../../types';
+import {CITIES_MOCK} from '../../const';
 
-const favoriteCities = ['Amsterdam'];
+const MOCK_AMSTERDAM = [CITIES_MOCK[3]];
 
-const FavoritePage = ({offers}: TOfferProps): JSX.Element => (
-  <main className="page__main page__main--favorites">
-    <div className="page__favorites-container container">
-      <section className="favorites">
-        <h1 className="favorites__title">Saved listing</h1>
-        <ul className="favorites__list">
-          {favoriteCities.map((favoriteCity) => (
-            <li className="favorites__locations-items" key={favoriteCity}>
-              <div className="favorites__locations locations locations--current">
-                <div className="locations__item">
-                  <a className="locations__item-link" href="#">
-                    <span>{favoriteCity}</span>
-                  </a>
+type TFavoritePageProps = {
+  offers: TOffer[];
+}
+
+const FavoritePage = ({offers}: TFavoritePageProps): JSX.Element => {
+  const [, setActiveOffer] = useState<TOffer>();
+  const handleHover = (offer?: TOffer) => {
+    setActiveOffer(offer);
+  };
+  return (
+    <main className="page__main page__main--favorites">
+      <div className="page__favorites-container container">
+        <section className="favorites">
+          <h1 className="favorites__title">Saved listing</h1>
+          <ul className="favorites__list">
+            {MOCK_AMSTERDAM.map((favoriteCity) => (
+              <li className="favorites__locations-items" key={favoriteCity.name}>
+                <div className="favorites__locations locations locations--current">
+                  <div className="locations__item">
+                    <a className="locations__item-link" href="#">
+                      <span>{favoriteCity.name}</span>
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <div className="favorites__places">
-                {offers.map((offer) => (
-                  <FavoriteCard {...offer} key={offer.id}/>
-                ))}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </div>
-  </main>
-);
+                <PlaceCardsList offers={offers} type={'favorites'} handleHover = {handleHover}/>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </main>
+  );
+};
 
 export default FavoritePage;

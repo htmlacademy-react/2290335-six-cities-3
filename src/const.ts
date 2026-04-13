@@ -13,6 +13,60 @@ enum AuthorizationStatus {
 
 const getAuthorizationStatus = () => AuthorizationStatus.Auth;
 
-const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+enum classNamesForMap {
+  Root = 'cities__map',
+  Offer = 'offer__map'
+}
 
-export {cities, AppRoute, AuthorizationStatus, getAuthorizationStatus};
+const CITIES_MOCK = [
+  {
+    name: 'Paris',
+    location: {
+      latitude: 48.8566,
+      longitude: 2.3522,
+      zoom: 8
+    }
+  },
+  {
+    name: 'Cologne',
+    location: {
+      latitude: 50.9375,
+      longitude: 6.9603,
+      zoom: 8
+    }
+  },
+  {
+    name: 'Brussels',
+    location: {
+      latitude: 50.8503,
+      longitude: 4.3517,
+      zoom: 8
+    }
+  },
+  {
+    name: 'Amsterdam',
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
+    }
+  },
+  {
+    name: 'Hamburg',
+    location: {
+      latitude: 53.5511,
+      longitude: 9.9937,
+      zoom: 8
+    }
+  },
+  {
+    name: 'Dusseldorf',
+    location: {
+      latitude: 51.2277,
+      longitude: 6.7735,
+      zoom: 8
+    }
+  },
+];
+
+export {CITIES_MOCK, AppRoute, AuthorizationStatus, getAuthorizationStatus, classNamesForMap};

@@ -6,9 +6,9 @@ export type TOffer = {
   city: {
     name: string;
     location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
+      latitude: number;
+      longitude: number;
+      zoom: number;
     };
   };
   location: {
@@ -22,38 +22,82 @@ export type TOffer = {
   previewImage: string;
 }
 
+export type TOfferExtended = {
+  id: number;
+  title: string;
+  type: string;
+  price: number;
+  city: {
+    name: string;
+    location: {
+      latitude: number;
+      longitude: number;
+      zoom: number;
+    };
+  };
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  images: [string];
+  maxAdults: number;
+}
+
 export type TOfferProps = {
   offers: TOffer[];
 }
 
-export type TOfferComplex = {
-  offer: TOffer;
-  handleHover: (offer?:TOffer) => void;
-}
-
-export type TOfferComplexSecond = {
-  offers: TOffer[];
-  handleHover: (offer?:TOffer) => void;
-}
-
 export type City = {
-  title: string;
-  lat: number;
-  lng: number;
-  zoom: number;
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
 };
 
 export type Point = {
   title: string;
   lat: number;
   lng: number;
+  zoom : number;
+  name?: string;
+  location?: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
 };
-
-export type Points = Point[];
 
 export type MapProps = {
   city: City;
-  offers: TOffer[];
-  selectedPoint: Point | undefined;
+  offers: TOffer[] | TOfferExtended[];
+  classNamesForMap: string;
+  selectedPoint?: TOffer | TOfferExtended;
+  selectedOffer?: TOffer | TOfferExtended;
+};
+
+export type TComment = {
+  id: string;
+  date: string;
+  user: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  comment: string;
+  rating: number;
 };
 

@@ -7,10 +7,16 @@ import OfferPage from '../../pages/offer-page/offer-page.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import NotFoundedPage from '../../pages/not-founded-page/not-founded-page.tsx';
 import Layout from '../layout/layout.tsx';
-import {TOfferProps} from '../../types.ts';
+import {TOffer, TComment, TOfferExtended} from '../../types.ts';
 
+type TOffersCommentsProps = {
+  offers: TOffer[];
+  extendedOffers: TOfferExtended[];
+  otherOffers: TOffer[];
+  comments: TComment[];
+}
 
-function App({offers}: TOfferProps): JSX.Element {
+function App({offers, extendedOffers, otherOffers, comments}: TOffersCommentsProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -23,11 +29,23 @@ function App({offers}: TOfferProps): JSX.Element {
           />
           <Route path={AppRoute.Offer}>
             <Route path=":id"
-              element={<OfferPage offers = {offers} />}
+              element={
+                <OfferPage
+                  extendedOffers = {extendedOffers}
+                  otherOffers = {otherOffers}
+                  comments = {comments}
+                />
+              }
             />
           </Route>
           <Route path={AppRoute.Favorites}
-            element={<PrivateRoute authorizationStatus={getAuthorizationStatus()}><FavoritePage offers = {offers}/></PrivateRoute>}
+            element={
+              <PrivateRoute
+                authorizationStatus = {getAuthorizationStatus()}
+              >
+                <FavoritePage offers = {offers}/>
+              </PrivateRoute>
+            }
           />
           <Route path='*'
             element={<NotFoundedPage/>}

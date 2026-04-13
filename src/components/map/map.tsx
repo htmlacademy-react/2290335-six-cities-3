@@ -1,8 +1,8 @@
 import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import useMap from '../../../hooks/use-map';
-import {MapProps} from '../../../types';
+import useMap from './use-map';
+import {MapProps} from '../../types';
 
 const URL_MARKER_DEFAULT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
@@ -23,7 +23,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, selectedPoint} = props;
+  const {city, offers, selectedPoint, classNamesForMap} = props;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -39,7 +39,7 @@ function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedPoint !== null && offer.title === selectedPoint.title
+            !!selectedPoint && offer.title === selectedPoint.title
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -52,7 +52,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, offers, selectedPoint]);
 
-  return <section className="cities__map map" style={{height: '740px'}} ref={mapRef}></section>;
+  return <section className={`${classNamesForMap} map`} style={{height: '740px'}} ref={mapRef}/>;
 }
 
 export default Map;

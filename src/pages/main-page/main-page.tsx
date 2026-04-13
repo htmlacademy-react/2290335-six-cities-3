@@ -1,21 +1,17 @@
-import CitiesList from './components/cities-list';
-import {TOfferProps, TOffer} from '../../types';
-import PlaceCardsList from './components/place-cards-list';
-import {Nullable} from 'vitest';
 import {useState} from 'react';
-import Map from './components/map';
+import {TOfferProps, TOffer, City} from '../../types';
+import {CITIES_MOCK, classNamesForMap} from '../../const';
+import CitiesList from './components/cities-list';
+import PlaceCardsList from '../../components/place-card/place-cards-list';
+import Map from '../../components/map/map';
 
 function MainPage ({offers}: TOfferProps): JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<Nullable<TOffer>>(null);
+  const [activeOffer, setActiveOffer] = useState<TOffer>();
   const handleHover = (offer?: TOffer) => {
     setActiveOffer(offer);
   };
-  const city = {
-    title: offers[0].city.name,
-    lat: offers[0].city.location.latitude,
-    lng: offers[0].city.location.longitude,
-    zoom: 20
-  };
+  // Мокковый Амстердам
+  const cityMockAmsterdam: City = CITIES_MOCK[3];
 
   return (
     <main className="page__main page__main--index">
@@ -43,10 +39,19 @@ function MainPage ({offers}: TOfferProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <PlaceCardsList offers={offers} handleHover={handleHover}/>
+            <PlaceCardsList
+              type = {'root'}
+              offers={offers}
+              handleHover={handleHover}
+            />
           </section>
           <div className="cities__right-section">
-            <Map offers={offers} city={city} selectedPoint={activeOffer }/>
+            <Map
+              offers={offers}
+              city={cityMockAmsterdam}
+              selectedPoint={activeOffer}
+              classNamesForMap = {classNamesForMap.Root}
+            />
           </div>
         </div>
       </div>
