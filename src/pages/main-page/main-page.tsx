@@ -1,17 +1,12 @@
-import {useState} from 'react';
-import {TOfferProps, TOffer, City} from '../../types';
-import {CITIES_MOCK, classNamesForMap} from '../../const';
+import {TOfferProps} from '../../types';
+import {classNamesForMap} from '../../const';
 import CitiesList from './components/cities-list';
 import PlaceCardsList from '../../components/place-card/place-cards-list';
 import Map from '../../components/map/map';
+import {useAppSelector} from '../../hooks';
 
 function MainPage ({offers}: TOfferProps): JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<TOffer>();
-  const handleHover = (offer?: TOffer) => {
-    setActiveOffer(offer);
-  };
-  // Мокковый Амстердам
-  const cityMockAmsterdam: City = CITIES_MOCK[3];
+  const activeOffer = useAppSelector((state) => state.currentCity);
 
   return (
     <main className="page__main page__main--index">
@@ -42,13 +37,12 @@ function MainPage ({offers}: TOfferProps): JSX.Element {
             <PlaceCardsList
               type = {'root'}
               offers={offers}
-              handleHover={handleHover}
             />
           </section>
           <div className="cities__right-section">
             <Map
               offers={offers}
-              city={cityMockAmsterdam}
+              city={activeOffer}
               selectedPoint={activeOffer}
               classNamesForMap = {classNamesForMap.Root}
             />

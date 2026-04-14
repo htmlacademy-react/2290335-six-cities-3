@@ -1,14 +1,16 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {TOffer} from '../../types';
+import {useAppDispatch} from '../../hooks';
+import {changeCurrentCity} from '../../store/action';
 
 type TPlaceCardProps = {
   typeClassName: 'root' | 'offer' | 'favorites';
   offer: TOffer;
-  handleHover: (offer?:TOffer) => void;
 }
 
-function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
+function PlaceCard({typeClassName, offer}: TPlaceCardProps) {
+  const dispatch = useAppDispatch();
   let className;
   let widthPictureCardImage = 260;
   let heigthPictureCardImage = 200;
@@ -24,12 +26,11 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
   }
 
   const {id, title, previewImage, price, isPremium, isFavorite, type, rating} = offer;
-  const handleMouseOn = () => {
-    handleHover(offer);
-  };
 
   return (
-    <article className={`${className}__card place-card`} key={id} onMouseEnter={handleMouseOn} >
+    <article className={`${className}__card place-card`}
+      key={id} onMouseEnter={() => dispatch(changeCurrentCity(offer))}
+    >
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>

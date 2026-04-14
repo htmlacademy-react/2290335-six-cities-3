@@ -4,14 +4,14 @@ import {offers} from '../mocks/offers';
 
 
 const initialState = {
-  currentCity: 'Amsterdam',
+  currentCity: offers[0],
   citiesList: offers,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(changeCurrentCity, (state) => {
-      state.currentCity = 'Paris';
+    .addCase(changeCurrentCity, (state, action) => {
+      state.currentCity = action.payload;
     });
 });
 
