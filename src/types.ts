@@ -1,3 +1,10 @@
+import {store} from './store/index';
+
+export type State = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;
+
+
 export type TOffer = {
   id: number;
   title: string;
@@ -60,7 +67,7 @@ export type TOfferProps = {
 }
 
 export type City = {
-  name: string;
+  name?: string;
   location: {
     latitude: number;
     longitude: number;

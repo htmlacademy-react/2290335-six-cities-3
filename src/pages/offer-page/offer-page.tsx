@@ -1,12 +1,13 @@
-import {useState} from 'react';
+import {useAppSelector} from '../../hooks';
 import {useParams} from 'react-router-dom';
-import {TOffer, TOfferExtended, TComment, City} from '../../types';
+import {TOffer, TOfferExtended, TComment} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
 import NotFoundedPage from '../not-founded-page/not-founded-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
 import NearPlacesSection from './components/near-places-section';
 import Map from '../../components/map/map';
+import {classNamesForMap} from '../../const';
 import {MY_CITIES, classNamesForMap} from '../../const';
 
 type TComplicatedProps = {
@@ -16,10 +17,7 @@ type TComplicatedProps = {
 }
 
 function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<TOffer>();
-  const handleHover = (offer?: TOffer) => {
-    setActiveOffer(offer as TOffer);
-  };
+  const activeOffer = useAppSelector((state) => state.currentCity);
 
   const params = useParams();
   const selectedOffer = extendedOffers.find((item) => item.id === Number(params.id)) as TOfferExtended;
@@ -80,14 +78,13 @@ function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):J
         </div>
         <Map
           offers = {otherOffers}
-          city = {cityMockAmsterdam}
+          city = {activeOffer}
           selectedPoint = {activeOffer}
           classNamesForMap = {classNamesForMap.Offer}
         />
       </section>
       <NearPlacesSection
         otherOffers = {otherOffers}
-        handleHover = {handleHover}
       />
     </main>
   ) : (

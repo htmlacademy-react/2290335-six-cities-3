@@ -4,10 +4,9 @@ import PlaceCard from './place-card';
 type TPlaceCardsListProps = {
   type: 'root' | 'offer' | 'favorites';
   offers: TOffer[];
-  handleHover: (offer?:TOffer) => void;
 }
 
-const PlaceCardsList = ({type, offers, handleHover}: TPlaceCardsListProps):JSX.Element => {
+const PlaceCardsList = ({type, offers}: TPlaceCardsListProps):JSX.Element => {
   let className;
   switch (true) {
     case type === 'root': className = 'cities__places-list tabs__content places__list';
@@ -23,7 +22,6 @@ const PlaceCardsList = ({type, offers, handleHover}: TPlaceCardsListProps):JSX.E
         <PlaceCard
           typeClassName = {type}
           offer = {offer}
-          handleHover = {handleHover}
           key = {offer.id}
         />
       ))}
