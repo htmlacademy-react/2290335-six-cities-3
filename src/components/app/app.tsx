@@ -37,15 +37,15 @@ function App({extendedOffers, otherOffers, comments}: TOffersCommentsProps): JSX
               }
             />
           </Route>
-          {/* <Route path={AppRoute.Favorites}
+          <Route path={AppRoute.Favorites}
             element={
               <PrivateRoute
                 authorizationStatus = {getAuthorizationStatus()}
               >
-                <FavoritePage offers = {offers}/>
+                <FavoritePage/>
               </PrivateRoute>
             }
-          /> */}
+          />
           <Route path='*'
             element={<NotFoundedPage/>}
           />

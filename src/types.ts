@@ -67,7 +67,7 @@ export type TOfferProps = {
 }
 
 export type City = {
-  name?: string;
+  name: string;
   location: {
     latitude: number;
     longitude: number;

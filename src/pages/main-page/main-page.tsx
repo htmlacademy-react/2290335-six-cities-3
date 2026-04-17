@@ -1,12 +1,10 @@
 import {classNamesForMap} from '../../const';
-import {TOfferProps, TOffer} from '../../types';
+import {TOffer} from '../../types';
 import CitiesList from './components/cities-list';
 import PlaceCardsList from '../../components/place-card/place-cards-list';
 import Map from '../../components/map/map';
-import {useState, useEffect} from 'react';
-import {changeCurrentCity, changeOffers} from '../../store/action';
+import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
-import {useAppDispatch} from '../../hooks';
 
 function MainPage (): JSX.Element {
   const [activeOffer, setActiveOffer] = useState<TOffer>();
@@ -14,16 +12,12 @@ function MainPage (): JSX.Element {
     setActiveOffer(offer);
   };
 
-  // const dispatch = useAppDispatch();
   const currentCity = useAppSelector((state) => state.currentCity);
   const offers = useAppSelector((state) => state.cityOffers);
-  useEffect(() => {
-
-
-    console.log(currentCity.name);
-    console.log(offers);
-  }, [currentCity, offers]);
-
+  // useEffect(() => {
+  //   console.log(currentCity.name);
+  //   console.log(offers);
+  // }, [currentCity, offers]);
 
   return (
     <main className="page__main page__main--index">

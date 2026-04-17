@@ -2,18 +2,17 @@ import {useState} from 'react';
 import PlaceCardsList from '../../components/place-card/place-cards-list';
 import {TOffer} from '../../types';
 import {MY_CITIES} from '../../const';
+import {useAppSelector} from '../../hooks';
 
 const MOCK_AMSTERDAM = [MY_CITIES[3]];
 
-type TFavoritePageProps = {
-  offers: TOffer[];
-}
-
-const FavoritePage = ({offers}: TFavoritePageProps): JSX.Element => {
+const FavoritePage = (): JSX.Element => {
   const [, setActiveOffer] = useState<TOffer>();
   const handleHover = (offer?: TOffer) => {
     setActiveOffer(offer);
   };
+
+  const offers = useAppSelector((state) => state.cityOffers);
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
@@ -29,7 +28,11 @@ const FavoritePage = ({offers}: TFavoritePageProps): JSX.Element => {
                     </a>
                   </div>
                 </div>
-                <PlaceCardsList offers={offers} type={'favorites'} handleHover = {handleHover}/>
+                <PlaceCardsList
+                  offers={offers}
+                  type={'favorites'}
+                  handleHover = {handleHover}
+                />
               </li>
             ))}
           </ul>
