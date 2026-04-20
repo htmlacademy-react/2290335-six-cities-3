@@ -8,6 +8,10 @@ import PrivateRoute from '../private-route/private-route.tsx';
 import NotFoundedPage from '../../pages/not-founded-page/not-founded-page.tsx';
 import Layout from '../layout/layout.tsx';
 import {TOffer, TComment, TOfferExtended} from '../../types.ts';
+import { useAppDispatch } from '../../hooks/index.ts';
+import { useEffect } from 'react';
+import { changeOffers } from '../../store/action.ts';
+import { offers } from '../../mocks/offers.ts';
 
 type TOffersCommentsProps = {
   extendedOffers: TOfferExtended[];
@@ -16,6 +20,10 @@ type TOffersCommentsProps = {
 }
 
 function App({extendedOffers, otherOffers, comments}: TOffersCommentsProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(changeOffers(offers));
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <Routes>

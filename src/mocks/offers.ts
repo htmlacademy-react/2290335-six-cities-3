@@ -41,8 +41,8 @@ const offers: TOffer[] = [
     price: 132,
     city: MY_CITIES[0],
     location: {
-      latitude: 52.3909553943508,
-      longitude: 4.929309666406198,
+      latitude: 48.856614,
+      longitude: 2.352222,
       zoom: 8
     },
     isFavorite: false,
@@ -57,8 +57,8 @@ const offers: TOffer[] = [
     price: 180,
     city: MY_CITIES[0],
     location: {
-      latitude: 52.3809553943508,
-      longitude: 4.939309666406198,
+      latitude: 48.826614,
+      longitude: 2.352222,
       zoom: 8
     },
     isFavorite: false,
@@ -73,8 +73,8 @@ const offers: TOffer[] = [
     price: 1000,
     city: MY_CITIES[1],
     location: {
-      latitude: 52.3809553943508,
-      longitude: 4.939309666406198,
+      latitude: 58.9575,
+      longitude: 7.8501,
       zoom: 8
     },
     isFavorite: false,
@@ -89,8 +89,8 @@ const offers: TOffer[] = [
     price: 500,
     city: MY_CITIES[1],
     location: {
-      latitude: 52.3809553943508,
-      longitude: 4.939309666406198,
+      latitude: 50.9575,
+      longitude: 7.9501,
       zoom: 8
     },
     isFavorite: false,
@@ -105,8 +105,8 @@ const offers: TOffer[] = [
     price: 10,
     city: MY_CITIES[1],
     location: {
-      latitude: 52.3609553943508,
-      longitude: 4.85309666406198,
+      latitude: 54.9575,
+      longitude: 7.9501,
       zoom: 8
     },
     isFavorite: true,
@@ -121,8 +121,8 @@ const offers: TOffer[] = [
     price: 20,
     city: MY_CITIES[1],
     location: {
-      latitude: 52.3609553943508,
-      longitude: 4.85309666406198,
+      latitude: 55.9575,
+      longitude: 6.9501,
       zoom: 8
     },
     isFavorite: true,
@@ -137,8 +137,8 @@ const offers: TOffer[] = [
     price: 15,
     city: MY_CITIES[1],
     location: {
-      latitude: 52.3609553943508,
-      longitude: 4.85309666406198,
+      latitude: 52.9575,
+      longitude: 6.9501,
       zoom: 8
     },
     isFavorite: true,
@@ -153,8 +153,8 @@ const offers: TOffer[] = [
     price: 1,
     city: MY_CITIES[1],
     location: {
-      latitude: 52.3609553943508,
-      longitude: 4.85309666406198,
+      latitude: 50.9575,
+      longitude: 6.9501,
       zoom: 8
     },
     isFavorite: true,
@@ -169,8 +169,8 @@ const offers: TOffer[] = [
     price: 150,
     city: MY_CITIES[1],
     location: {
-      latitude: 52.3609553943508,
-      longitude: 4.85309666406198,
+      latitude: 50.9275,
+      longitude: 6.9601,
       zoom: 8
     },
     isFavorite: false,
@@ -185,8 +185,8 @@ const offers: TOffer[] = [
     price: 5000,
     city: MY_CITIES[1],
     location: {
-      latitude: 52.3609553943508,
-      longitude: 4.85309666406198,
+      latitude: 50.9375,
+      longitude: 6.9603,
       zoom: 8
     },
     isFavorite: false,

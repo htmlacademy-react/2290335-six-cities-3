@@ -30,7 +30,14 @@ function Map(props: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
+      map.panTo([city.location.latitude, city.location.longitude]);
+    }
+  }, [city, map]);
+
+  useEffect(() => {
+    if (map) {
       const markerLayer = layerGroup().addTo(map);
+
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,

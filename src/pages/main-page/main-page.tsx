@@ -15,22 +15,23 @@ function MainPage (): JSX.Element {
     setActiveOffer(offer);
   };
   const currentCity = useAppSelector((state) => state.currentCity);
-  const offers = useAppSelector((state) => state.cityOffers);
+  const offers = useAppSelector((state) => state.offers);
+  const filteredOffers = offers.filter((offer) => offer.city.name === currentCity.name);
   const isEmpty = offers.length === 0;
   const [activeSort, setActiveSort] = useState(SortOption.Popular);
 
-  let sortedOffers = offers;
+  let sortedOffers = filteredOffers;
 
   if (activeSort === SortOption.PriceLowToHigh) {
-    sortedOffers = [...offers].sort((a, b) => a.price - b.price);
+    sortedOffers = [...filteredOffers].sort((a, b) => a.price - b.price);
   }
 
   if (activeSort === SortOption.PriceHighToLow) {
-    sortedOffers = [...offers].sort((a, b) => b.price - a.price);
+    sortedOffers = [...filteredOffers].sort((a, b) => b.price - a.price);
   }
 
   if (activeSort === SortOption.TopRatedFirst) {
-    sortedOffers = [...offers].sort((a, b) => b.rating - a.rating);
+    sortedOffers = [...filteredOffers].sort((a, b) => b.rating - a.rating);
   }
 
   return (
@@ -46,7 +47,7 @@ function MainPage (): JSX.Element {
           )} */}
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{sortedOffers.length} places to stay in Amsterdam</b>
+            <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
             <SortBar
               current={activeSort}
               setter={setActiveSort}
@@ -59,10 +60,10 @@ function MainPage (): JSX.Element {
           </section>
           <div className="cities__right-section">
             <Map
-              offers={offers}
+              offers={filteredOffers}
               city={currentCity}
               selectedPoint={activeOffer}
-              classNamesForMap = {classNamesForMap.Root}
+              classNamesForMap={classNamesForMap.Root}
             />
           </div>
         </div>
