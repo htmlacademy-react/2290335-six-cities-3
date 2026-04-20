@@ -1,4 +1,4 @@
-import {Outlet, useLocation} from 'react-router-dom';
+import {Outlet, useLocation, Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus, getAuthorizationStatus} from '../../const';
 
 const getLayoutState = (pathname: AppRoute) => {
@@ -31,9 +31,17 @@ export default function Layout() {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className={`header__logo-link ${linkClassName}`}>
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"></img>
-              </a>
+              <Link
+                to={'./'}
+                className={`header__logo-link ${linkClassName}`}
+              >
+                <img className="header__logo"
+                  src="img/logo.svg"
+                  alt="6 cities logo"
+                  width="81"
+                  height="41"
+                />
+              </Link>
             </div>
             {
               shouldRenderUser ? (
@@ -69,7 +77,12 @@ export default function Layout() {
       {shouldRenderFooter ? (
         <footer className="footer container">
           <a className="footer__logo-link" href="main.html">
-            <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"></img>
+            <img className="footer__logo"
+              src="img/logo.svg"
+              alt="6 cities logo"
+              width="64"
+              height="33"
+            />
           </a>
         </footer>
       ) : null}

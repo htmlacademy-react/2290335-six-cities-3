@@ -1,62 +1,69 @@
 import {classNamesForMap} from '../../const';
 import {TOffer} from '../../types';
+import {useState} from 'react';
+import {useAppSelector} from '../../hooks';
 import CitiesList from './components/cities-list';
 import PlaceCardsList from '../../components/place-card/place-cards-list';
 import Map from '../../components/map/map';
-import {useState} from 'react';
-import {useAppSelector} from '../../hooks';
+import SortBar from './components/sort-bar';
+import { SortOption } from './components/const';
+import classNames from 'classnames';
 
 function MainPage (): JSX.Element {
   const [activeOffer, setActiveOffer] = useState<TOffer>();
   const handleHover = (offer?: TOffer) => {
     setActiveOffer(offer);
   };
-
   const currentCity = useAppSelector((state) => state.currentCity);
-  const offers = useAppSelector((state) => state.cityOffers);
-  // useEffect(() => {
-  //   console.log(currentCity.name);
-  //   console.log(offers);
-  // }, [currentCity, offers]);
+  const offers = useAppSelector((state) => state.offers);
+  const filteredOffers = offers.filter((offer) => offer.city.name === currentCity.name);
+  const isEmpty = offers.length === 0;
+  const [activeSort, setActiveSort] = useState(SortOption.Popular);
+
+  let sortedOffers = filteredOffers;
+
+  if (activeSort === SortOption.PriceLowToHigh) {
+    sortedOffers = [...filteredOffers].sort((a, b) => a.price - b.price);
+  }
+
+  if (activeSort === SortOption.PriceHighToLow) {
+    sortedOffers = [...filteredOffers].sort((a, b) => b.price - a.price);
+  }
+
+  if (activeSort === SortOption.TopRatedFirst) {
+    sortedOffers = [...filteredOffers].sort((a, b) => b.rating - a.rating);
+  }
 
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
-        <CitiesList/>
+        <CitiesList currentCity = {currentCity}/>
       </div>
       <div className="cities">
-        <div className="cities__places-container container">
+        <div className={classNames('container', 'cities__places-container', {'cities__places-container--empty': isEmpty})}>
+          {/* {isEmpty ? (
+
+          )} */}
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offers.length} places to stay in Amsterdam</b>
-            <form className="places__sorting" action="#" method="get">
-              <span className="places__sorting-caption">Sort by</span>
-              <span className="places__sorting-type" tabIndex={0}>
-                Popular
-                <svg className="places__sorting-arrow" width="7" height="4">
-                  <use xlinkHref="#icon-arrow-select"></use>
-                </svg>
-              </span>
-              <ul className="places__options places__options--custom ">
-                <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                <li className="places__option" tabIndex={0}>Price: low to high</li>
-                <li className="places__option" tabIndex={0}>Price: high to low</li>
-                <li className="places__option" tabIndex={0}>Top rated first</li>
-              </ul>
-            </form>
+            <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
+            <SortBar
+              current={activeSort}
+              setter={setActiveSort}
+            />
             <PlaceCardsList
               type = {'root'}
-              offers={offers}
+              offers={sortedOffers}
               handleHover={handleHover}
             />
           </section>
           <div className="cities__right-section">
             <Map
-              offers={offers}
+              offers={filteredOffers}
               city={currentCity}
               selectedPoint={activeOffer}
-              classNamesForMap = {classNamesForMap.Root}
+              classNamesForMap={classNamesForMap.Root}
             />
           </div>
         </div>

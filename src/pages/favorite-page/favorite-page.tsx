@@ -12,7 +12,7 @@ const FavoritePage = (): JSX.Element => {
     setActiveOffer(offer);
   };
 
-  const offers = useAppSelector((state) => state.cityOffers);
+  const offers = useAppSelector((state) => state.offers);
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
