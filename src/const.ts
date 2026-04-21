@@ -5,6 +5,12 @@ enum AppRoute {
   Favorites = '/favorites',
 }
 
+enum APIRoute {
+  Offers = 'offers',
+  Login = '/login',
+  Logout = '/logout',
+}
+
 enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
@@ -69,4 +75,4 @@ const MY_CITIES = [
   },
 ];
 
-export {MY_CITIES, AppRoute, AuthorizationStatus, getAuthorizationStatus, classNamesForMap};
+export {MY_CITIES, AppRoute, AuthorizationStatus, getAuthorizationStatus, classNamesForMap, APIRoute};

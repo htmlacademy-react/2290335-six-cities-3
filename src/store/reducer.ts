@@ -1,11 +1,11 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {changeCurrentCity, changeOffers, loadOffers, requireAuthorization} from './action';
-import {offers} from '../mocks/offers';
 import {MY_CITIES, AuthorizationStatus} from '../const';
+// import {offers} from '../mocks/offers';
 
 const initialState = {
   currentCity: MY_CITIES[0],
-  offers: offers,
+  offers: [],
   authorizationStatus: AuthorizationStatus.Unknown
 };
 
