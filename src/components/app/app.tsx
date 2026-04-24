@@ -12,7 +12,7 @@ import LoadingScreen from '../loading-screen/loading-screen.tsx';
 import NotFoundedPage from '../../pages/not-founded-page/not-founded-page.tsx';
 // import { useEffect } from 'react';
 // import { changeOffers } from '../../store/action.ts';
-import { useAppDispatch, useAppSelector } from '../../hooks/index.ts';
+import { useAppSelector } from '../../hooks/index.ts';
 
 const App = (): JSX.Element => {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);

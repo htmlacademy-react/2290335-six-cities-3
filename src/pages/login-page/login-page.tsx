@@ -53,7 +53,7 @@ const LoginPage = (): JSX.Element => {
               />
             </div>
             <button
-              // onClick={() => navigate(AppRoute.Root)}
+              onClick={() => navigate(AppRoute.Root)}
               className="login__submit form__submit button"
               type="submit"
             >
