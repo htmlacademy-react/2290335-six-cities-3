@@ -16,7 +16,7 @@ function MainPage (): JSX.Element {
     setActiveOffer(offer);
   };
   const currentCity = useAppSelector((state) => state.currentCity);
-  const offers = useAppSelector((state) => state.offers);
+  const offers: TOffer[] = useAppSelector((state) => state.offers);
   const filteredOffers = offers.filter((offer) => offer.city.name === currentCity.name);
   const isEmpty = offers.length === 0;
   const [activeSort, setActiveSort] = useState(SortOption.Popular);

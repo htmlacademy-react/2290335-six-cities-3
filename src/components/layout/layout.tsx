@@ -1,5 +1,6 @@
 import {Outlet, useLocation, Link} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus, getAuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import {useAppSelector} from '../../hooks';
 
 const getLayoutState = (pathname: AppRoute) => {
   let rootClassName = '';
@@ -23,7 +24,7 @@ const getLayoutState = (pathname: AppRoute) => {
 export default function Layout() {
   const {pathname} = useLocation();
   const {rootClassName, linkClassName, shouldRenderUser, shouldRenderFooter} = getLayoutState(pathname as AppRoute);
-  const authorizationStatus = getAuthorizationStatus();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   return (
     <div className= {`page ${rootClassName}`}>

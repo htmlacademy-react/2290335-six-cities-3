@@ -17,6 +17,8 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+const TIMEOUT_SHOW_ERROR = 2000;
+
 const getAuthorizationStatus = () => AuthorizationStatus.Auth;
 
 enum classNamesForMap {
@@ -75,4 +77,4 @@ const MY_CITIES = [
   },
 ];
 
-export {MY_CITIES, AppRoute, AuthorizationStatus, getAuthorizationStatus, classNamesForMap, APIRoute};
+export {MY_CITIES, AppRoute, AuthorizationStatus, getAuthorizationStatus, classNamesForMap, APIRoute, TIMEOUT_SHOW_ERROR};
