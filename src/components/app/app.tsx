@@ -13,20 +13,24 @@ import NotFoundedPage from '../../pages/not-founded-page/not-founded-page.tsx';
 // import { useEffect } from 'react';
 // import { changeOffers } from '../../store/action.ts';
 import { useAppSelector } from '../../hooks/index.ts';
+import { store } from '../../store/index.ts';
+import { fetchQuestionAction } from '../../store/api-actions.ts';
+import { useEffect } from 'react';
 
 const App = (): JSX.Element => {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isQuestionsDataLoading = useAppSelector((state) => state.isQuestionsDataLoading);
+
+  useEffect(() => {
+    store.dispatch(fetchQuestionAction());
+  }, []);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isQuestionsDataLoading) {
     return (
       <LoadingScreen />
     );
   }
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(changeOffers(offers));
-  // }, [dispatch]);
+
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>

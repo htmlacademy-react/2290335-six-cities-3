@@ -40,6 +40,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setQuestionsDataLoadingStatus, (state, action) => {
       state.isQuestionsDataLoading = action.payload;
     });
+  // .addCase(redirectToRoute, (state, action) => {
+  //   state.isQuestionsDataLoading = action.payload;
+  // });
 });
 
 export {reducer};

@@ -3,14 +3,12 @@ import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import App from './components/app/app';
 import {store} from './store';
-import {fetchQuestionAction} from './store/api-actions';
 import ErrorMessage from './components/error-message/error-message';
 import {checkAuthAction} from './store/api-actions';
 // import {extendedOffers} from './mocks/extended-offers.ts';
 // import {otherOffers} from './mocks/other-offers.ts';
 // import {comments} from './mocks/comments.ts';
 
-store.dispatch(fetchQuestionAction());
 store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(

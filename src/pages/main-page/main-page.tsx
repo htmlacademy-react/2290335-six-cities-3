@@ -9,6 +9,7 @@ import Map from '../../components/map/map';
 import SortBar from './components/sort-bar';
 
 import classNames from 'classnames';
+import EmptySection from './components/empty-section';
 
 function MainPage (): JSX.Element {
   const [activeOffer, setActiveOffer] = useState<TOffer>();
@@ -43,9 +44,7 @@ function MainPage (): JSX.Element {
       </div>
       <div className="cities">
         <div className={classNames('container', 'cities__places-container', {'cities__places-container--empty': isEmpty})}>
-          {/* {isEmpty ? (
-
-          )} */}
+          {isEmpty && <EmptySection/>}
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
