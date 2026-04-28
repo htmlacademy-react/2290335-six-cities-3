@@ -1,14 +1,15 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCurrentCity, changeOffers, loadOffers, requireAuthorization, setError, setQuestionsDataLoadingStatus} from './action';
+import {changeCurrentCity, changeOffers, loadOffers, requireAuthorization, setError, setOffersLoadingStatus, changeCurrentOffer} from './action';
 import {City, TOffer} from '../types';
 import {MY_CITIES, AuthorizationStatus} from '../const';
 
 type TInitialState = {
   currentCity: City;
   offers: TOffer[];
-  authorizationStatus: 'AUTH' | 'NO_AUTH' | 'UNKNOWN';
+  authorizationStatus: AuthorizationStatus;
   isQuestionsDataLoading: boolean;
   error: string | null;
+  currentOffer: number | null;
 }
 
 const initialState: TInitialState = {
@@ -16,7 +17,8 @@ const initialState: TInitialState = {
   offers: [],
   authorizationStatus: AuthorizationStatus.Unknown,
   isQuestionsDataLoading: false,
-  error: null
+  error: null,
+  currentOffer: null
 };
 
 
@@ -37,9 +39,15 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(setQuestionsDataLoadingStatus, (state, action) => {
+    .addCase(setOffersLoadingStatus, (state, action) => {
       state.isQuestionsDataLoading = action.payload;
+    })
+    .addCase(changeCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload;
     });
+  // .addCase(redirectToRoute, (state, action) => {
+  //   state.isQuestionsDataLoading = action.payload;
+  // });
 });
 
 export {reducer};

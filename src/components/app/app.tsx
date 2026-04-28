@@ -10,23 +10,25 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import LoadingScreen from '../loading-screen/loading-screen.tsx';
 import NotFoundedPage from '../../pages/not-founded-page/not-founded-page.tsx';
-// import { useEffect } from 'react';
-// import { changeOffers } from '../../store/action.ts';
 import { useAppSelector } from '../../hooks/index.ts';
+import { store } from '../../store/index.ts';
+import { fetchQuestionAction } from '../../store/api-actions.ts';
+import { useEffect } from 'react';
 
 const App = (): JSX.Element => {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isQuestionsDataLoading = useAppSelector((state) => state.isQuestionsDataLoading);
+
+  useEffect(() => {
+    store.dispatch(fetchQuestionAction());
+  }, []);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isQuestionsDataLoading) {
     return (
       <LoadingScreen />
     );
   }
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(changeOffers(offers));
-  // }, [dispatch]);
+
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
@@ -34,7 +36,11 @@ const App = (): JSX.Element => {
           element={<Layout/>}
         >
           <Route index
-            element={<MainPage/>}
+            element={
+              <PrivateRoute authorizationStatus = {authorizationStatus}>
+                <MainPage/>
+              </PrivateRoute>
+            }
           />
           <Route path={AppRoute.Login}
             element={<LoginPage/>}
@@ -46,9 +52,7 @@ const App = (): JSX.Element => {
           </Route>
           <Route path={AppRoute.Favorites}
             element={
-              <PrivateRoute
-                authorizationStatus = {authorizationStatus}
-              >
+              <PrivateRoute authorizationStatus = {authorizationStatus}>
                 <FavoritePage/>
               </PrivateRoute>
             }

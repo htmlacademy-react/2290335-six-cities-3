@@ -1,6 +1,5 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useAppSelector} from '../../hooks';
-import {useParams} from 'react-router-dom';
 import {TOffer, TOfferExtended, TComment} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
@@ -9,35 +8,79 @@ import ReviewsSection from './components/reviews-section/reviews-section';
 import NearPlacesSection from './components/near-places-section';
 import Map from '../../components/map/map';
 import {classNamesForMap} from '../../const';
+import {api} from '../../store';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 
-type TComplicatedProps = {
-  otherOffers: TOffer[];
-  extendedOffers: TOfferExtended[];
-  comments: TComment[];
-}
 
-function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<TOffer>();
-  const handleHover = (offer?: TOffer) => {
-    setActiveOffer(offer);
-  };
+function OfferPage(): JSX.Element {
   const currentCity = useAppSelector((state) => state.currentCity);
+  const urlId = useAppSelector((state) => state.currentOffer);
 
-  const params = useParams();
-  const selectedOffer = extendedOffers.find((item) => item.id === Number(params.id)) as TOfferExtended;
-  const {id, title, type, price, isFavorite, isPremium, rating, description, bedrooms, host, goods, images, maxAdults} = selectedOffer;
+  // Загруженный выбранный оффер, комментарии, все остальные офферы
+  const [offer, setOffer] = useState<TOfferExtended | null>(null);
+  const [comments, setComments] = useState<TComment[] | null>(null);
+  const [nearbyOffers, setNearbyOffers] = useState<TOffer[] | null>(null);
+  // Процесс загрузки
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeOffer, setActiveOffer] = useState<TOffer | undefined>();
 
-  return selectedOffer ? (
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchOffer = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await api.get<TOfferExtended>(`offers/${urlId}`);
+        const { data: commentsData } = await api.get<TComment[]>(`comments/${urlId}`);
+        const { data: nearbyData } = await api.get<TOffer[]>(`offers/${urlId}/nearby`);
+        if (isMounted) {
+          setOffer(data);
+          setComments(commentsData);
+          setNearbyOffers(nearbyData);
+        }
+      } catch {
+        // Ошибка (например, 404) обработается тем, что offer останется null
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchOffer();
+    return () => {
+      isMounted = false;
+    };
+  }, [urlId]);
+
+  const handleHover = (selectedOffer?: TOffer) => {
+    setActiveOffer(selectedOffer);
+  };
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (!offer) {
+    return <NotFoundedPage />;
+  }
+
+  const { title, type, price, isFavorite, isPremium, rating, description, bedrooms, host, goods, images, maxAdults} = offer;
+
+  return (
     <main className="page__main page__main--offer">
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            <div className="offer__image-wrapper" key={id}>
-              <img className="offer__image"
-                src={images[0]}
-                alt="Photo studio"
-              />
-            </div>
+            {images.map((item) => (
+              <div className="offer__image-wrapper" key={item}>
+                <img
+                  className="offer__image"
+                  src={item}
+                  alt="Photo studio"
+                />
+              </div>
+            ))}
           </div>
         </div>
         <div className="offer__container container">
@@ -80,7 +123,7 @@ function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):J
           </div>
         </div>
         <Map
-          offers = {otherOffers}
+          offers = {nearbyOffers}
           city = {currentCity}
           selectedPoint = {activeOffer}
           classNamesForMap = {classNamesForMap.Offer}
@@ -88,11 +131,9 @@ function OfferPage({extendedOffers, otherOffers, comments}: TComplicatedProps):J
       </section>
       <NearPlacesSection
         handleHover = {handleHover}
-        otherOffers = {otherOffers}
+        otherOffers = {nearbyOffers}
       />
     </main>
-  ) : (
-    <NotFoundedPage/>
   );
 }
 
