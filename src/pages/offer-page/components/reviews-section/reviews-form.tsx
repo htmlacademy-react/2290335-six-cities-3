@@ -1,13 +1,56 @@
-import { ReactEventHandler, useState, Fragment } from 'react';
+import { ReactEventHandler, useState, Fragment, FormEvent} from 'react';
+import { api } from '../../../../store';
+
+type urlIdProps = {
+  urlId: number | null;
+}
 
 type TChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>
 
-const ReviewsForm = () => {
+type TComment = {
+  id: string;
+  date: string;
+  user: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  comment: string;
+  rating: number;
+};
+
+const ReviewsForm = ({urlId}: urlIdProps) => {
   const [review, setReview] = useState({rating: 0, review: ''});
+  const [isSending, setIsSending] = useState(false);
 
   const handleChange: TChangeHandler = (event) => {
-    const {name, value} = event.currentTarget;
-    setReview({...review, [name]: value});
+    const { name, value } = event.currentTarget;
+    const newValue = name === 'rating' ? Number(value) : value;
+    setReview({ ...review, [name]: newValue });
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!urlId) {
+      return;
+    }
+
+    setIsSending(true);
+
+    try {
+      await api.post<TComment>(`comments/${urlId}`, {
+        comment: review.review,
+        rating: review.rating
+      });
+
+      setReview({ rating: 0, review: '' });
+    } catch (error) {
+      console.error('Ошибка при отправке:', error);
+
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const rating = [
@@ -19,7 +62,12 @@ const ReviewsForm = () => {
   ];
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleSubmit}
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {rating.map(({value, label}) => (
@@ -31,6 +79,8 @@ const ReviewsForm = () => {
               id={`${value}-stars`}
               type="radio"
               onChange={handleChange}
+              disabled={isSending}
+              checked={review.rating === value}
             />
 
             <label
@@ -51,6 +101,8 @@ const ReviewsForm = () => {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleChange}
+        value={review.review}
+        disabled={isSending}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -60,7 +112,7 @@ const ReviewsForm = () => {
           className="reviews__submit form__submit button"
           type="submit"
           disabled={review.review.length < 50 || review.rating === 0}
-        >Submit
+        >{isSending ? 'Sending...' : 'Submit'}
         </button>
       </div>
     </form>

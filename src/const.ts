@@ -17,8 +17,6 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-const TIMEOUT_SHOW_ERROR = 2000;
-
 enum classNamesForMap {
   Root = 'cities__map',
   Offer = 'offer__map'
@@ -75,4 +73,4 @@ const MY_CITIES = [
   },
 ];
 
-export {MY_CITIES, AppRoute, AuthorizationStatus, classNamesForMap, APIRoute, TIMEOUT_SHOW_ERROR};
+export {MY_CITIES, AppRoute, AuthorizationStatus, classNamesForMap, APIRoute};

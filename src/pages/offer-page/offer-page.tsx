@@ -39,7 +39,7 @@ function OfferPage(): JSX.Element {
           setNearbyOffers(nearbyData);
         }
       } catch {
-        // Ошибка (например, 404) обработается тем, что offer останется null
+        // Ошибка
       } finally {
         if (isMounted) {
           setIsLoading(false);
@@ -115,11 +115,17 @@ function OfferPage(): JSX.Element {
               <b className="offer__price-value">&euro;{price}</b>
               <span className="offer__price-text">&nbsp;night</span>
             </div>
-            <OfferInside goods = {goods}/>
-            <OfferHost host = {host}
+            <OfferInside
+              goods = {goods}
+            />
+            <OfferHost
+              host = {host}
               description = {description}
             />
-            <ReviewsSection comments = {comments}/>
+            <ReviewsSection
+              comments = {comments}
+              urlId = {urlId}
+            />
           </div>
         </div>
         <Map
