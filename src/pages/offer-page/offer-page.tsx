@@ -7,7 +7,7 @@ import NotFoundedPage from '../not-founded-page/not-founded-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
 import NearPlacesSection from './components/near-places-section';
 import Map from '../../components/map/map';
-import {APIRoute, classNamesForMap} from '../../const';
+import {classNamesForMap} from '../../const';
 import {api} from '../../store';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 
@@ -56,9 +56,9 @@ function OfferPage(): JSX.Element {
     };
   }, [urlId]);
 
-  // const handleHover = (selectedOffer?: TOffer) => {
-  //   setActiveOffer(selectedOffer);
-  // };
+  const handleHover = (selectedOffer?: TOffer) => {
+    setActiveOffer(selectedOffer);
+  };
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -132,10 +132,10 @@ function OfferPage(): JSX.Element {
           classNamesForMap = {classNamesForMap.Offer}
         /> */}
       </section>
-      <NearPlacesSection
-        // handleHover = {handleHover}
+      {/* <NearPlacesSection
+        handleHover = {handleHover}
         otherOffers = {nearbyOffers}
-      />
+      /> */}
     </main>
   );
 }

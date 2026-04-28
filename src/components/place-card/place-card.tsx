@@ -7,7 +7,7 @@ import { changeCurrentOffer } from '../../store/action';
 type TPlaceCardProps = {
   typeClassName: 'root' | 'offer' | 'favorites';
   offer: TOffer;
-  handleHover?: (offer?:TOffer) => void;
+  handleHover: (offer?:TOffer) => void;
 }
 
 const getClassName = (typeClassName: string) => {
