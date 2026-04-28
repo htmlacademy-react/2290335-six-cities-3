@@ -13,18 +13,16 @@ import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 
 function OfferPage(): JSX.Element {
+  const currentCity = useAppSelector((state) => state.currentCity);
   const urlId = useAppSelector((state) => state.currentOffer);
 
-  // Загруженный оффер, комментарии
+  // Загруженный выбранный оффер, комментарии, все остальные офферы
   const [offer, setOffer] = useState<TOfferExtended | null>(null);
   const [comments, setComments] = useState<TComment[] | null>(null);
   const [nearbyOffers, setNearbyOffers] = useState<TOffer[] | null>(null);
   // Процесс загрузки
   const [isLoading, setIsLoading] = useState(true);
-  // Ховер
   const [activeOffer, setActiveOffer] = useState<TOffer | undefined>();
-
-  const currentCity = useAppSelector((state) => state.currentCity);
 
   useEffect(() => {
     let isMounted = true;
@@ -39,7 +37,6 @@ function OfferPage(): JSX.Element {
           setOffer(data);
           setComments(commentsData);
           setNearbyOffers(nearbyData);
-          console.log(nearbyOffers);
         }
       } catch {
         // Ошибка (например, 404) обработается тем, что offer останется null
@@ -68,7 +65,7 @@ function OfferPage(): JSX.Element {
     return <NotFoundedPage />;
   }
 
-  const { title, type, price, isFavorite, isPremium, rating, description, bedrooms, host, goods, images, maxAdults, id } = offer;
+  const { title, type, price, isFavorite, isPremium, rating, description, bedrooms, host, goods, images, maxAdults} = offer;
 
   return (
     <main className="page__main page__main--offer">
@@ -125,17 +122,17 @@ function OfferPage(): JSX.Element {
             <ReviewsSection comments = {comments}/>
           </div>
         </div>
-        {/* <Map
-          offers = {otherOffers}
+        <Map
+          offers = {nearbyOffers}
           city = {currentCity}
           selectedPoint = {activeOffer}
           classNamesForMap = {classNamesForMap.Offer}
-        /> */}
+        />
       </section>
-      {/* <NearPlacesSection
+      <NearPlacesSection
         handleHover = {handleHover}
         otherOffers = {nearbyOffers}
-      /> */}
+      />
     </main>
   );
 }
