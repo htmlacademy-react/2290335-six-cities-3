@@ -1,6 +1,8 @@
 import {Outlet, useLocation, Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {useAppSelector} from '../../hooks';
+import { logoutAction } from '../../store/api-actions';
+import { store } from '../../store';
 
 const getLayoutState = (pathname: AppRoute) => {
   let rootClassName = '';
@@ -62,9 +64,16 @@ export default function Layout() {
                     </li>
                     {authorizationStatus === AuthorizationStatus.Auth ? (
                       <li className="header__nav-item">
-                        <a className="header__nav-link" href="#">
+                        <Link
+                          className="header__nav-link"
+                          onClick={(evt) => {
+                            evt.preventDefault();
+                            store.dispatch(logoutAction());
+                          }}
+                          to={AppRoute.Login}
+                        >
                           <span className="header__signout">Sign out</span>
-                        </a>
+                        </Link>
                       </li>
                     ) : null}
                   </ul>

@@ -38,6 +38,10 @@ function Map(props: MapProps): JSX.Element {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
 
+      if (offers === null) {
+        return;
+      }
+
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,

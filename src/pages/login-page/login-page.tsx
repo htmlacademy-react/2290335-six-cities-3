@@ -1,15 +1,15 @@
 import {useRef, FormEvent} from 'react';
-import {useNavigate} from 'react-router-dom';
+// import {useNavigate} from 'react-router-dom';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
-import {AppRoute} from '../../const';
+// import {AppRoute} from '../../const';
 
 const LoginPage = (): JSX.Element => {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -53,7 +53,7 @@ const LoginPage = (): JSX.Element => {
               />
             </div>
             <button
-              onClick={() => navigate(AppRoute.Root)}
+              // onClick={() => navigate(AppRoute.Root)}
               className="login__submit form__submit button"
               type="submit"
             >

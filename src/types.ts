@@ -90,7 +90,7 @@ export type Point = {
 
 export type MapProps = {
   city: City;
-  offers: TOffer[] | TOfferExtended[];
+  offers: TOffer[] | TOfferExtended[] | null;
   classNamesForMap: string;
   selectedPoint?: TOffer | TOfferExtended;
   selectedOffer?: TOffer | TOfferExtended;

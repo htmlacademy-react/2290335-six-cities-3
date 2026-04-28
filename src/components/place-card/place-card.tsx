@@ -1,6 +1,8 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {TOffer} from '../../types';
+import { store } from '../../store';
+import { changeCurrentOffer } from '../../store/action';
 
 type TPlaceCardProps = {
   typeClassName: 'root' | 'offer' | 'favorites';
@@ -34,9 +36,15 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
     heigthPictureCardImage = 110;
   }
 
+
   return (
-    <article className={`${getClassName(typeClassName)}__card place-card`}
-      key={id} onMouseEnter={handleMouseOn}
+    <article
+      className={`${getClassName(typeClassName)}__card place-card`}
+      key={id}
+      onMouseEnter={handleMouseOn}
+      onClick={() => {
+        store.dispatch(changeCurrentOffer(id));
+      }}
     >
       {isPremium &&
         <div className="place-card__mark">
