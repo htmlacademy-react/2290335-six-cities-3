@@ -2,7 +2,7 @@ import {TOffer} from '../../../types';
 import PlaceCardsList from '../../../components/place-card/place-cards-list';
 
 type TComplexProps = {
-  otherOffers: TOffer[] | null;
+  otherOffers: TOffer[];
   handleHover: (offer?:TOffer) => void;
 }
 

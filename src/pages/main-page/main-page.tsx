@@ -60,8 +60,8 @@ function MainPage (): JSX.Element {
           </section>
           <div className="cities__right-section">
             <Map
-              offers={filteredOffers}
               city={currentCity}
+              offers={filteredOffers}
               selectedPoint={activeOffer}
               classNamesForMap={classNamesForMap.Root}
             />

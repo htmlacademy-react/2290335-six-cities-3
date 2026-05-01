@@ -4,7 +4,7 @@ import {useAppSelector} from '../../hooks';
 import {TOffer, TOfferExtended, TComment} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
-import {classNamesForMap, getRandomThree} from '../../const';
+import {classNamesForMap} from '../../const';
 import {api} from '../../store';
 import NotFoundedPage from '../not-founded-page/not-founded-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
@@ -12,17 +12,23 @@ import NearPlacesSection from './components/near-places-section';
 import Map from '../../components/map/map';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 
-const NUMBER_OF_SHOWN_PICTURES = 3;
+const LIMIT_PICTURES = 3;
 
 function OfferPage(): JSX.Element {
   const currentCity = useAppSelector((state) => state.currentCity);
+  const offers = useAppSelector((state) => state.offers);
   const {id} = useParams<{ id: string }>();
   const urlId = id;
   const [offer, setOffer] = useState<TOfferExtended | null>(null);
   const [comments, setComments] = useState<TComment[] | null>(null);
   const [nearbyOffers, setNearbyOffers] = useState<TOffer[] | null>(null);
+  const [, setActiveOffer] = useState<TOffer | undefined>();
   const [isLoading, setIsLoading] = useState(true);
-  const [activeOffer, setActiveOffer] = useState<TOffer | undefined>();
+  const normalOffer = offers.find((item) => item.id.toString() === urlId);
+  const offersByLimitPictures = nearbyOffers?.slice(0, LIMIT_PICTURES);
+  if (offersByLimitPictures && normalOffer) {
+    offersByLimitPictures.push(normalOffer);
+  }
 
   const fetchComments = useCallback(async () => {
     if (!urlId) {
@@ -73,8 +79,6 @@ function OfferPage(): JSX.Element {
   }
 
   const { title, type, price, isFavorite, isPremium, rating, description, bedrooms, host, goods, images, maxAdults} = offer;
-  const limitedOffers = getRandomThree(nearbyOffers);
-  // console.table(limitedOffers);
 
   return (
     <main className="page__main page__main--offer">
@@ -140,19 +144,21 @@ function OfferPage(): JSX.Element {
             />
           </div>
         </div>
-        {/* <Map
-          offers = {limitedOffers}
-          city = {currentCity}
-          selectedPoint = {offer}
-          classNamesForMap = {classNamesForMap.Offer}
-        /> */}
+
+        {offersByLimitPictures &&
+          <Map
+            offers = {offersByLimitPictures}
+            city = {currentCity}
+            selectedPoint = {offer}
+            classNamesForMap = {classNamesForMap.Offer}
+          />}
       </section>
 
-      {nearbyOffers &&
-      <NearPlacesSection
-        handleHover = {handleHover}
-        otherOffers = {limitedOffers}
-      />}
+      {offersByLimitPictures &&
+        <NearPlacesSection
+          handleHover = {handleHover}
+          otherOffers = {offersByLimitPictures.slice(0, LIMIT_PICTURES)}
+        />}
     </main>
   );
 }
