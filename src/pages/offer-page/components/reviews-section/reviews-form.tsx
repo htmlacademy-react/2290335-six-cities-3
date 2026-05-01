@@ -2,7 +2,7 @@ import { ReactEventHandler, useState, Fragment, FormEvent} from 'react';
 import { api } from '../../../../store';
 
 type urlIdProps = {
-  urlId: number | null;
+  urlId: string | undefined;
   fetchComments: () => Promise<void>;
 }
 

@@ -10,12 +10,13 @@ import Map from '../../components/map/map';
 import {classNamesForMap} from '../../const';
 import {api} from '../../store';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
+import { useParams } from 'react-router-dom';
 
 
 function OfferPage(): JSX.Element {
+  const { id } = useParams<{ id: string }>();
   const currentCity = useAppSelector((state) => state.currentCity);
-  const urlId = useAppSelector((state) => state.currentOffer);
-
+  const urlId = id;
   // Загруженный выбранный оффер, комментарии, все остальные офферы
   const [offer, setOffer] = useState<TOfferExtended | null>(null);
   const [comments, setComments] = useState<TComment[] | null>(null);
@@ -25,11 +26,17 @@ function OfferPage(): JSX.Element {
   const [activeOffer, setActiveOffer] = useState<TOffer | undefined>();
 
   const fetchComments = useCallback(async () => {
+    if (!urlId) {
+      return;
+    }
     const { data: commentsData } = await api.get<TComment[]>(`comments/${urlId}`);
     setComments(commentsData);
   },[urlId]);
 
   useEffect(() => {
+    if (!urlId) {
+      return;
+    }
     let isMounted = true;
 
     (async () => {
@@ -37,7 +44,7 @@ function OfferPage(): JSX.Element {
         setIsLoading(true);
         const { data } = await api.get<TOfferExtended>(`offers/${urlId}`);
         const { data: nearbyData } = await api.get<TOffer[]>(`offers/${urlId}/nearby`);
-        fetchComments();
+        await fetchComments();
         if (isMounted) {
           setOffer(data);
           setNearbyOffers(nearbyData);

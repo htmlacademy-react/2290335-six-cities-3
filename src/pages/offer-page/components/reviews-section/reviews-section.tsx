@@ -6,7 +6,7 @@ import ReviewsList from './reviews-list';
 
 type TCommentsProps = {
   comments: TComment[] | null;
-  urlId: number | null;
+  urlId: string | undefined;
   fetchComments: () => Promise<void>;
 }
 
