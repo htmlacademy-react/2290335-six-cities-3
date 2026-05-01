@@ -1,15 +1,11 @@
 import {useRef, FormEvent} from 'react';
-// import {useNavigate} from 'react-router-dom';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
-// import {AppRoute} from '../../const';
 
 const LoginPage = (): JSX.Element => {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -39,7 +35,7 @@ const LoginPage = (): JSX.Element => {
                 className="login__input form__input"
                 type="email"
                 name="email"
-                // placeholder="Email"
+                placeholder="Email"
               />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
@@ -49,11 +45,10 @@ const LoginPage = (): JSX.Element => {
                 className="login__input form__input"
                 type="password"
                 name="password"
-                // placeholder="Password"
+                placeholder="Password"
               />
             </div>
             <button
-              // onClick={() => navigate(AppRoute.Root)}
               className="login__submit form__submit button"
               type="submit"
             >

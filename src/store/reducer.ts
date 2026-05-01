@@ -7,7 +7,7 @@ type TInitialState = {
   currentCity: City;
   offers: TOffer[];
   authorizationStatus: AuthorizationStatus;
-  isQuestionsDataLoading: boolean;
+  isOffersDataLoading: boolean;
   currentOffer: number | null;
 }
 
@@ -15,10 +15,9 @@ const initialState: TInitialState = {
   currentCity: MY_CITIES[0],
   offers: [],
   authorizationStatus: AuthorizationStatus.Unknown,
-  isQuestionsDataLoading: false,
+  isOffersDataLoading: false,
   currentOffer: null
 };
-
 
 const reducer = createReducer(initialState, (builder) => {
   builder
@@ -35,14 +34,11 @@ const reducer = createReducer(initialState, (builder) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(setOffersLoadingStatus, (state, action) => {
-      state.isQuestionsDataLoading = action.payload;
+      state.isOffersDataLoading = action.payload;
     })
     .addCase(changeCurrentOffer, (state, action) => {
       state.currentOffer = action.payload;
     });
-  // .addCase(redirectToRoute, (state, action) => {
-  //   state.isQuestionsDataLoading = action.payload;
-  // });
 });
 
 export {reducer};
