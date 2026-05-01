@@ -1,57 +1,70 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
 import {TOffer, TOfferExtended, TComment} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
+import {classNamesForMap} from '../../const';
+import {api} from '../../store';
 import NotFoundedPage from '../not-founded-page/not-founded-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
 import NearPlacesSection from './components/near-places-section';
 import Map from '../../components/map/map';
-import {classNamesForMap} from '../../const';
-import {api} from '../../store';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 
+const LIMIT_PICTURES = 3;
 
 function OfferPage(): JSX.Element {
   const currentCity = useAppSelector((state) => state.currentCity);
-  const urlId = useAppSelector((state) => state.currentOffer);
-
-  // Загруженный выбранный оффер, комментарии, все остальные офферы
+  const offers = useAppSelector((state) => state.offers);
+  const {id} = useParams<{ id: string }>();
+  const urlId = id;
   const [offer, setOffer] = useState<TOfferExtended | null>(null);
   const [comments, setComments] = useState<TComment[] | null>(null);
   const [nearbyOffers, setNearbyOffers] = useState<TOffer[] | null>(null);
-  // Процесс загрузки
+  const [, setActiveOffer] = useState<TOffer | undefined>();
   const [isLoading, setIsLoading] = useState(true);
-  const [activeOffer, setActiveOffer] = useState<TOffer | undefined>();
+  const normalOffer = offers.find((item) => item.id.toString() === urlId);
+  const offersByLimitPictures = nearbyOffers?.slice(0, LIMIT_PICTURES);
+  if (offersByLimitPictures && normalOffer) {
+    offersByLimitPictures.push(normalOffer);
+  }
+
+  const fetchComments = useCallback(async () => {
+    if (!urlId) {
+      return;
+    }
+    const { data: commentsData } = await api.get<TComment[]>(`comments/${urlId}`);
+    setComments(commentsData);
+  },[urlId]);
 
   useEffect(() => {
+    if (!urlId) {
+      return;
+    }
     let isMounted = true;
 
-    const fetchOffer = async () => {
+    (async () => {
       try {
         setIsLoading(true);
-        const { data } = await api.get<TOfferExtended>(`offers/${urlId}`);
-        const { data: commentsData } = await api.get<TComment[]>(`comments/${urlId}`);
-        const { data: nearbyData } = await api.get<TOffer[]>(`offers/${urlId}/nearby`);
+        const { data: currentOfferData } = await api.get<TOfferExtended>(`offers/${urlId}`);
+        const { data: nearbyOffersData } = await api.get<TOffer[]>(`offers/${urlId}/nearby`);
+        await fetchComments();
         if (isMounted) {
-          setOffer(data);
-          setComments(commentsData);
-          setNearbyOffers(nearbyData);
+          setOffer(currentOfferData);
+          setNearbyOffers(nearbyOffersData);
         }
-      } catch {
-        // Ошибка (например, 404) обработается тем, что offer останется null
       } finally {
         if (isMounted) {
           setIsLoading(false);
         }
       }
-    };
+    })();
 
-    fetchOffer();
     return () => {
       isMounted = false;
     };
-  }, [urlId]);
+  }, [urlId, fetchComments]);
 
   const handleHover = (selectedOffer?: TOffer) => {
     setActiveOffer(selectedOffer);
@@ -73,7 +86,9 @@ function OfferPage(): JSX.Element {
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
             {images.map((item) => (
-              <div className="offer__image-wrapper" key={item}>
+              <div className="offer__image-wrapper"
+                key={item}
+              >
                 <img
                   className="offer__image"
                   src={item}
@@ -115,24 +130,35 @@ function OfferPage(): JSX.Element {
               <b className="offer__price-value">&euro;{price}</b>
               <span className="offer__price-text">&nbsp;night</span>
             </div>
-            <OfferInside goods = {goods}/>
-            <OfferHost host = {host}
+            <OfferInside
+              goods = {goods}
+            />
+            <OfferHost
+              host = {host}
               description = {description}
             />
-            <ReviewsSection comments = {comments}/>
+            <ReviewsSection
+              fetchComments = {fetchComments}
+              comments = {comments}
+              urlId = {urlId}
+            />
           </div>
         </div>
-        <Map
-          offers = {nearbyOffers}
-          city = {currentCity}
-          selectedPoint = {activeOffer}
-          classNamesForMap = {classNamesForMap.Offer}
-        />
+
+        {offersByLimitPictures &&
+          <Map
+            offers = {offersByLimitPictures}
+            city = {currentCity}
+            selectedPoint = {offer}
+            classNamesForMap = {classNamesForMap.Offer}
+          />}
       </section>
-      <NearPlacesSection
-        handleHover = {handleHover}
-        otherOffers = {nearbyOffers}
-      />
+
+      {offersByLimitPictures &&
+        <NearPlacesSection
+          handleHover = {handleHover}
+          otherOffers = {offersByLimitPictures.slice(0, LIMIT_PICTURES)}
+        />}
     </main>
   );
 }

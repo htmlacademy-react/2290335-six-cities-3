@@ -36,7 +36,6 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
     heigthPictureCardImage = 110;
   }
 
-
   return (
     <article
       className={`${getClassName(typeClassName)}__card place-card`}

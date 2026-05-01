@@ -17,13 +17,13 @@ import { useEffect } from 'react';
 
 const App = (): JSX.Element => {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isQuestionsDataLoading = useAppSelector((state) => state.isQuestionsDataLoading);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
   useEffect(() => {
     store.dispatch(fetchQuestionAction());
   }, []);
 
-  if (authorizationStatus === AuthorizationStatus.Unknown || isQuestionsDataLoading) {
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (
       <LoadingScreen />
     );
