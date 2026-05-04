@@ -1,7 +1,7 @@
 import {Fragment} from 'react';
 import {Link} from 'react-router-dom';
 
-const NotFoundedPage = ():JSX.Element => (
+const NotFoundPage = ():JSX.Element => (
   <Fragment>
     <h1>
       404.
@@ -12,4 +12,4 @@ const NotFoundedPage = ():JSX.Element => (
   </Fragment>
 );
 
-export default NotFoundedPage;
+export default NotFoundPage;

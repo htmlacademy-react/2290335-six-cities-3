@@ -6,7 +6,7 @@ import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
 import {classNamesForMap} from '../../const';
 import {api} from '../../store';
-import NotFoundedPage from '../not-founded-page/not-founded-page';
+import NotFoundPage from '../not-found-page/not-found-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
 import NearPlacesSection from './components/near-places-section';
 import Map from '../../components/map/map';
@@ -75,7 +75,7 @@ function OfferPage(): JSX.Element {
   }
 
   if (!offer) {
-    return <NotFoundedPage />;
+    return <NotFoundPage />;
   }
 
   const { title, type, price, isFavorite, isPremium, rating, description, bedrooms, host, goods, images, maxAdults} = offer;
