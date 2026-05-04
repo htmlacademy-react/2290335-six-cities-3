@@ -1,8 +1,9 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {TOffer} from '../../types';
-import {api, store} from '../../store';
+import {api} from '../../store';
 import {changeFavorite} from '../../store/action';
+import {useAppDispatch} from '../../hooks';
 
 type TPlaceCardProps = {
   typeClassName: 'root' | 'offer' | 'favorites';
@@ -24,8 +25,8 @@ const getClassName = (typeClassName: string) => {
 };
 
 function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
-
   const {id, title, previewImage, price, isPremium, isFavorite, type, rating} = offer;
+  const dispatch = useAppDispatch();
   const handleMouseOn = () => {
     handleHover(offer);
   };
@@ -77,7 +78,7 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
             ${isFavorite ? 'place-card__bookmark-button--active' : ''}`}
           type="button"
           onClick={() => {
-            store.dispatch(changeFavorite(id));
+            dispatch(changeFavorite(id));
             handleFavorite(id);
           }}
           >

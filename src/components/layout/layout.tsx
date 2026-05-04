@@ -1,8 +1,7 @@
 import {Outlet, useLocation, Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/api-actions';
-import {store} from '../../store';
 
 const getLayoutState = (pathname: AppRoute) => {
   let rootClassName = '';
@@ -28,6 +27,10 @@ export default function Layout() {
   const {rootClassName, linkClassName, shouldRenderUser, shouldRenderFooter} = getLayoutState(pathname as AppRoute);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const userEmail = useAppSelector((state) => state.authInfo);
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector((state) => state.favorites);
+  const favoriteCount = favorites.length;
+
   return (
     <div className= {`page ${rootClassName}`}>
       <header className="header">
@@ -35,7 +38,7 @@ export default function Layout() {
           <div className="header__wrapper">
             <div className="header__left">
               <Link
-                to={'./'}
+                to={AppRoute.Root}
                 className={`header__logo-link ${linkClassName}`}
               >
                 <img className="header__logo"
@@ -51,16 +54,18 @@ export default function Layout() {
                 <nav className="header__nav">
                   <ul className="header__nav-list">
                     <li className="header__nav-item user">
-                      <a className="header__nav-link header__nav-link--profile" href="#">
+                      <Link to={AppRoute.Favorites}
+                        className="header__nav-link header__nav-link--profile"
+                      >
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
                         {authorizationStatus === AuthorizationStatus.Auth ? (
                           <>
                             <span className="header__user-name user__name">{userEmail}</span>
-                            <span className="header__favorite-count">3</span>
+                            <span className="header__favorite-count">{favoriteCount}</span>
                           </>
                         ) : <span className="header__login">Sign in</span>}
-                      </a>
+                      </Link>
                     </li>
                     {authorizationStatus === AuthorizationStatus.Auth ? (
                       <li className="header__nav-item">
@@ -68,7 +73,7 @@ export default function Layout() {
                           className="header__nav-link"
                           onClick={(evt) => {
                             evt.preventDefault();
-                            store.dispatch(logoutAction());
+                            dispatch(logoutAction());
                           }}
                           to={AppRoute.Login}
                         >
