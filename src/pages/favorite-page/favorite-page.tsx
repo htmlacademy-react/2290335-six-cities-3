@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 import PlaceCardsList from '../../components/place-card/place-cards-list';
 import {TOffer} from '../../types';
 import {useAppSelector} from '../../hooks';
@@ -9,17 +9,17 @@ const FavoritePage = (): JSX.Element => {
   const favorites = useAppSelector((state) => state.favorites);
   const [, setActiveOffer] = useState<TOffer>();
 
-  const groupedByCity = favorites.reduce<GroupedOffers>((acc, offer) => {
-    const cityName = offer.city.name;
+  const groupedByCity = useMemo(() =>
+    favorites.reduce<GroupedOffers>((acc, offer) => {
+      const cityName = offer.city.name;
 
-    // Если города еще нет в объекте, создаем пустой массив
-    if (!acc[cityName]) {
-      acc[cityName] = [];
-    }
+      if (!acc[cityName]) {
+        acc[cityName] = [];
+      }
 
-    acc[cityName].push(offer);
-    return acc;
-  }, {});
+      acc[cityName].push(offer);
+      return acc;
+    }, {}), [favorites]);
 
   const handleHover = (offer?: TOffer) => {
     setActiveOffer(offer);
