@@ -1,9 +1,8 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {TOffer} from '../../types';
-import {api} from '../../store';
-import {changeFavorite} from '../../store/action';
 import {useAppDispatch} from '../../hooks';
+import {toggleFavoriteAction} from '../../store/api-actions';
 
 type TPlaceCardProps = {
   typeClassName: 'root' | 'offer' | 'favorites';
@@ -37,15 +36,9 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
     heigthPictureCardImage = 110;
   }
 
-  const handleFavorite = async (offerId: string) => {
-    switch(isFavorite) {
-      case false:
-        await api.post<string>(`favorite/${offerId}/1`);
-        break;
-      case true:
-        await api.post<string>(`favorite/${offerId}/0`);
-        break;
-    }
+  const handleFavoriteClick = () => {
+    const nextStatus = isFavorite ? 0 : 1;
+    dispatch(toggleFavoriteAction({ id, status: nextStatus }));
   };
 
   return (
@@ -77,10 +70,7 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
           <button className={`place-card__bookmark-button button
             ${isFavorite ? 'place-card__bookmark-button--active' : ''}`}
           type="button"
-          onClick={() => {
-            dispatch(changeFavorite(id));
-            handleFavorite(id);
-          }}
+          onClick={handleFavoriteClick}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

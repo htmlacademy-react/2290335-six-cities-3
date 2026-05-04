@@ -1,10 +1,21 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State} from '../types.ts';
-import {TOffer, UserData, AuthData} from '../types.ts';
+import {TOffer, UserData, AuthData, AppDispatch, State} from '../types.ts';
 import {loadOffers, requireAuthorization, setOffersLoadingStatus, redirectToRoute, saveAuthInfo, loadFavorite} from './action';
 import {saveToken, dropToken} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
+
+export const toggleFavoriteAction = createAsyncThunk<
+  TOffer,
+  { id: string; status: number },
+  { extra: AxiosInstance }
+>(
+  'data/toggleFavorite',
+  async ({ id, status }, { extra: api }) => {
+    const { data } = await api.post<TOffer>(`favorite/${id}/${status}`);
+    return data;
+  }
+);
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;

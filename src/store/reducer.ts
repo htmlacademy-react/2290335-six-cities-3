@@ -1,7 +1,8 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCurrentCity, changeOffers, loadOffers, requireAuthorization, setOffersLoadingStatus, changeCurrentOffer, saveAuthInfo, loadFavorite, changeFavorite} from './action';
+import {changeCurrentCity, changeOffers, loadOffers, requireAuthorization, setOffersLoadingStatus, changeCurrentOffer, saveAuthInfo, loadFavorite} from './action';
 import {City, TOffer} from '../types';
 import {MY_CITIES, AuthorizationStatus} from '../const';
+import { toggleFavoriteAction } from './api-actions';
 
 const getSavedAuthInfo = (): string | null => {
   const data = localStorage.getItem('user-auth-data');
@@ -54,19 +55,18 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadFavorite, (state, action) => {
       state.favorites = action.payload;
     })
-    .addCase(changeFavorite, (state, action) => {
-      const offerId = action.payload;
-      const offer = state.offers.find((item) => item.id === offerId);
-      if (offer) {
-        offer.isFavorite = !offer.isFavorite;
-        if (offer.isFavorite) {
-          const alreadyInFavorites = state.favorites.some((item) => item.id === offer.id);
-          if (!alreadyInFavorites) {
-            state.favorites.push(offer);
-          }
-        } else {
-          state.favorites = state.favorites.filter((item) => item.id !== offer.id);
-        }
+    .addCase(toggleFavoriteAction.fulfilled, (state, action) => {
+      const updatedOffer = action.payload;
+
+      const offerIndex = state.offers.findIndex((item) => item.id === updatedOffer.id);
+      if (offerIndex !== -1) {
+        state.offers[offerIndex] = updatedOffer;
+      }
+
+      if (updatedOffer.isFavorite) {
+        state.favorites.push(updatedOffer);
+      } else {
+        state.favorites = state.favorites.filter((item) => item.id !== updatedOffer.id);
       }
     });
 });

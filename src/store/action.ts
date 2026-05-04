@@ -10,5 +10,4 @@ export const setOffersLoadingStatus = createAction<boolean>('data/setOffersLoadi
 export const changeCurrentCity = createAction<City>('city/changeCurrentCity');
 export const changeOffers = createAction<TOffer[]>('offers/changeOffers');
 export const changeCurrentOffer = createAction<string>('offer/changeCurrentOffer');
-export const changeFavorite = createAction<string>('offers/changeFavorite');
 export const loadFavorite = createAction<TOffer[]>('data/favorites');
