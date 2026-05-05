@@ -1,10 +1,10 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useEffect, useMemo, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TOffer, TOfferExtended, TComment} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
-import {ClassNamesForMap} from '../../const';
+import {ClassNamesForMap, AppRoute, AuthorizationStatus} from '../../const';
 import {api} from '../../store';
 import NotFoundPage from '../not-found-page/not-found-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
@@ -16,10 +16,12 @@ import { toggleFavoriteAction } from '../../store/api-actions';
 const LIMIT_PICTURES = 3;
 
 function OfferPage(): JSX.Element {
-  const dispatch = useAppDispatch();
   const {id: urlId} = useParams<{ id: string }>();
-  // const offers = useAppSelector((state) => state.offers);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  // const anotherOffers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.currentCity);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const [offer, setOffer] = useState<TOfferExtended | null>(null);
   const [comments, setComments] = useState<TComment[] | null>(null);
   const [nearbyOffers, setNearbyOffers] = useState<TOffer[] | null>(null);
@@ -33,41 +35,39 @@ function OfferPage(): JSX.Element {
     return [...nearbyOffers.slice(0, LIMIT_PICTURES), offer];
   }, [nearbyOffers, offer]);
 
-  const fetchComments = useCallback(async () => {
-    if (!urlId) {
-      return;
-    }
-    const { data: commentsData } = await api.get<TComment[]>(`comments/${urlId}`);
-    setComments(commentsData);
-  },[urlId]);
-
   useEffect(() => {
     if (!urlId) {
       return;
     }
     let isMounted = true;
 
-    (async () => {
-      try {
-        setIsLoading(true);
-        const {data: currentOfferData} = await api.get<TOfferExtended>(`offers/${urlId}`);
-        const {data: nearbyOffersData} = await api.get<TOffer[]>(`offers/${urlId}/nearby`);
-        await fetchComments();
+    Promise.all([
+      api.get<TOfferExtended>(`offers/${urlId}`),
+      api.get<TOffer[]>(`offers/${urlId}/nearby`),
+      api.get<TComment[]>(`comments/${urlId}`)
+    ])
+      .then(([offerData, nearbyData, commentsData]) => {
         if (isMounted) {
-          setOffer(currentOfferData);
-          setNearbyOffers(nearbyOffersData);
+          setOffer(offerData.data);
+          setNearbyOffers(nearbyData.data);
+          setComments(commentsData.data);
         }
-      } finally {
+      })
+      .catch(() => {
+        if (isMounted) {
+          setOffer(null); // Это триггернет NotFoundPage
+        }
+      })
+      .finally(() => {
         if (isMounted) {
           setIsLoading(false);
         }
-      }
-    })();
+      });
 
     return () => {
       isMounted = false;
     };
-  }, [urlId, fetchComments]);
+  }, [urlId]);
 
   const handleHover = (selectedOffer?: TOffer) => {
     setActiveOffer(selectedOffer);
@@ -84,8 +84,12 @@ function OfferPage(): JSX.Element {
   const {title, type, price, isFavorite, isPremium, rating, description, bedrooms, host, goods, images, maxAdults, id} = offer;
 
   const handleFavoriteClick = async () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
     const nextStatus = isFavorite ? 0 : 1;
-    const resultAction = await dispatch(toggleFavoriteAction({ id, status: nextStatus }));
+    const resultAction = await dispatch(toggleFavoriteAction({id, status: nextStatus}));
     if (toggleFavoriteAction.fulfilled.match(resultAction)) {
       setOffer(resultAction.payload as TOfferExtended);
     }
@@ -157,7 +161,6 @@ function OfferPage(): JSX.Element {
               description = {description}
             />
             <ReviewsSection
-              fetchComments = {fetchComments}
               comments = {comments}
               urlId = {urlId}
             />

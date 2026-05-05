@@ -7,21 +7,14 @@ type TPlaceCardsListProps = {
   handleHover: (offer?:TOffer) => void;
 }
 
-const getClassName = (type: 'root' | 'offer' | 'favorites') => {
-  switch (true) {
-    case type === 'root':
-      return 'cities__places-list tabs__content places__list';
-    case type === 'offer':
-      return 'near-places__list places__list';
-    case type === 'favorites':
-      return 'favorites__places';
-    default:
-      return '';
-  }
-};
+const ListClassName = {
+  root: 'cities__places-list tabs__content places__list',
+  offer: 'near-places__list places__list',
+  favorites: 'favorites__places',
+} as const;
 
 const PlaceCardsList = ({type, offers, handleHover}: TPlaceCardsListProps):JSX.Element => (
-  <div className={`${getClassName(type)}`}>
+  <div className={ListClassName[type] || ''}>
     {offers.map((offer: TOffer) => (
       <PlaceCard
         typeClassName = {type}

@@ -12,7 +12,7 @@ export const toggleFavoriteAction = createAsyncThunk<
 >(
   'data/toggleFavorite',
   async ({ id, status }, { extra: api }) => {
-    const { data } = await api.post<TOffer>(`favorite/${id}/${status}`);
+    const {data} = await api.post<TOffer>(`favorite/${id}/${status}`);
     return data;
   }
 );
