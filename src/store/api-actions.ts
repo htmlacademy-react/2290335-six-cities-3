@@ -7,7 +7,7 @@ import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
 
 export const toggleFavoriteAction = createAsyncThunk<
   TOffer,
-  { id: string; status: number },
+  { id: string; status: 0 | 1 },
   { extra: AxiosInstance }
 >(
   'data/toggleFavorite',

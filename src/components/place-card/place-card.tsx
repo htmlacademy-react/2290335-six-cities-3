@@ -1,7 +1,7 @@
-import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {Link, useNavigate} from 'react-router-dom';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import {TOffer} from '../../types';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {toggleFavoriteAction} from '../../store/api-actions';
 
 type TPlaceCardProps = {
@@ -25,7 +25,9 @@ const getClassName = (typeClassName: string) => {
 
 function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
   const {id, title, previewImage, price, isPremium, isFavorite, type, rating} = offer;
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const handleMouseOn = () => {
     handleHover(offer);
   };
@@ -38,7 +40,7 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
 
   const handleFavoriteClick = () => {
     const nextStatus = isFavorite ? 0 : 1;
-    dispatch(toggleFavoriteAction({ id, status: nextStatus }));
+    void dispatch(toggleFavoriteAction({ id, status: nextStatus }));
   };
 
   return (
@@ -70,7 +72,12 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
           <button className={`place-card__bookmark-button button
             ${isFavorite ? 'place-card__bookmark-button--active' : ''}`}
           type="button"
-          onClick={handleFavoriteClick}
+          onClick={() => {
+            if (authorizationStatus === AuthorizationStatus.NoAuth) {
+              navigate(AppRoute.Login);
+            }
+            handleFavoriteClick();
+          }}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -85,7 +92,7 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
