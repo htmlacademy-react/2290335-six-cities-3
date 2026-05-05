@@ -18,7 +18,7 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-enum classNamesForMap {
+enum ClassNamesForMap {
   Root = 'cities__map',
   Offer = 'offer__map'
 }
@@ -75,4 +75,4 @@ const MY_CITIES = [
 ];
 
 
-export {MY_CITIES, AppRoute, AuthorizationStatus, classNamesForMap, APIRoute};
+export {MY_CITIES, AppRoute, AuthorizationStatus, ClassNamesForMap, APIRoute};

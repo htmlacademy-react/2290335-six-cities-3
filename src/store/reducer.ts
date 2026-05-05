@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {changeCurrentCity, changeOffers, loadOffers, requireAuthorization, setOffersLoadingStatus, changeCurrentOffer, saveAuthInfo, loadFavorite} from './action';
-import {City, TOffer, TOfferExtended} from '../types';
+import {TCity, TOffer, TOfferExtended} from '../types';
 import {MY_CITIES, AuthorizationStatus} from '../const';
 import { toggleFavoriteAction } from './api-actions';
 
@@ -10,7 +10,7 @@ const getSavedAuthInfo = (): string | null => {
 };
 
 type TInitialState = {
-  currentCity: City;
+  currentCity: TCity;
   offers: TOffer[];
   authorizationStatus: AuthorizationStatus;
   isOffersDataLoading: boolean;

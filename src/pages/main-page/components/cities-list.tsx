@@ -1,10 +1,10 @@
 import {MY_CITIES} from '../../../const';
 import {useAppDispatch} from '../../../hooks';
 import {changeCurrentCity} from '../../../store/action';
-import {City} from '../../../types';
+import {TCity} from '../../../types';
 
 type TCitiesList = {
-  currentCity: City;
+  currentCity: TCity;
 }
 
 const CitiesList = ({currentCity}: TCitiesList): JSX.Element => {

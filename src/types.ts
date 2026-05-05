@@ -4,6 +4,17 @@ export type State = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 
+export type UserData = {
+  id: number;
+  email: string;
+  token: string;
+};
+
+export type AuthData = {
+  login: string;
+  password: string;
+};
+
 export type TOffer = {
   id: string;
   title: string;
@@ -55,7 +66,7 @@ export type TComment = {
   rating: number;
 };
 
-export type City = {
+export type TCity = {
   name: string;
   location: {
     latitude: number;
@@ -65,21 +76,10 @@ export type City = {
 };
 
 export type MapProps = {
-  city: City;
+  city: TCity;
   offers: TOffer[] | TOfferExtended[] | TAnyOffer[] | null;
-  classNamesForMap: string;
+  ClassNamesForMap: string;
   selectedPoint?: TOffer | TOfferExtended;
   selectedOffer?: TOffer | TOfferExtended;
-};
-
-export type UserData = {
-  id: number;
-  email: string;
-  token: string;
-};
-
-export type AuthData = {
-  login: string;
-  password: string;
 };
 

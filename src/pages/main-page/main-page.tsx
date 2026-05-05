@@ -1,4 +1,4 @@
-import {classNamesForMap} from '../../const';
+import {ClassNamesForMap} from '../../const';
 import {TOffer} from '../../types';
 import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
@@ -63,7 +63,7 @@ function MainPage (): JSX.Element {
               city={currentCity}
               offers={filteredOffers}
               selectedPoint={activeOffer}
-              classNamesForMap={classNamesForMap.Root}
+              ClassNamesForMap={ClassNamesForMap.Root}
             />
           </div>
         </div>

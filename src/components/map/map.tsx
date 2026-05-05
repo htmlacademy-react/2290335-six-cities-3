@@ -23,7 +23,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, selectedPoint, classNamesForMap} = props;
+  const {city, offers, selectedPoint, ClassNamesForMap} = props;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -63,7 +63,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, offers, selectedPoint]);
 
-  return <section className={`${classNamesForMap} map`} style={{height: '740px'}} ref={mapRef}/>;
+  return <section className={`${ClassNamesForMap} map`} style={{height: '740px'}} ref={mapRef}/>;
 }
 
 export default Map;

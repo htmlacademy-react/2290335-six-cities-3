@@ -75,8 +75,9 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
           onClick={() => {
             if (authorizationStatus === AuthorizationStatus.NoAuth) {
               navigate(AppRoute.Login);
+            } else {
+              handleFavoriteClick();
             }
-            handleFavoriteClick();
           }}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">

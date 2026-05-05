@@ -4,7 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TOffer, TOfferExtended, TComment} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
-import {classNamesForMap} from '../../const';
+import {ClassNamesForMap} from '../../const';
 import {api} from '../../store';
 import NotFoundPage from '../not-found-page/not-found-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
@@ -169,7 +169,7 @@ function OfferPage(): JSX.Element {
             offers = {offersForMap}
             city = {currentCity}
             selectedPoint = {offer}
-            classNamesForMap = {classNamesForMap.Offer}
+            ClassNamesForMap = {ClassNamesForMap.Offer}
           />}
       </section>
 
