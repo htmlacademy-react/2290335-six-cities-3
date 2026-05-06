@@ -11,9 +11,11 @@ type TCommentsProps = {
 const ReviewsSection = ({urlId, onSuccess}: TCommentsProps):JSX.Element => {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const comments = useAppSelector((state) => state.comments);
+  const commentsLength = comments.length;
+
   return (
     <section className="offer__reviews reviews">
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount"></span></h2>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{commentsLength}</span></h2>
       <ReviewsList
         comments = {comments}
       />

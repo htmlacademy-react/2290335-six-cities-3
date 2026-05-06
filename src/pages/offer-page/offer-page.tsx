@@ -5,6 +5,7 @@ import {TOffer, TOfferExtended, TComment} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
 import {ClassNamesForMap, AppRoute, AuthorizationStatus, APIRoute} from '../../const';
+import {pluralize, capitalize} from '../../utils';
 import {api} from '../../store';
 import NotFoundPage from '../not-found-page/not-found-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
@@ -160,9 +161,9 @@ function OfferPage(): JSX.Element {
               <span className="offer__rating-value rating__value">{rating}</span>
             </div>
             <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire">{type}</li>
-              <li className="offer__feature offer__feature--bedrooms">{bedrooms} Bedrooms</li>
-              <li className="offer__feature offer__feature--adults"> Max {maxAdults} adults</li>
+              <li className="offer__feature offer__feature--entire">{capitalize(type)}</li>
+              <li className="offer__feature offer__feature--bedrooms">{pluralize(bedrooms, 'Bedroom', 'Bedrooms')}</li>
+              <li className="offer__feature offer__feature--adults">Max {pluralize(maxAdults, 'adult', 'adults')}</li>
             </ul>
             <div className="offer__price">
               <b className="offer__price-value">&euro;{price}</b>
