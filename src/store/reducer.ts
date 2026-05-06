@@ -2,7 +2,7 @@ import {createReducer} from '@reduxjs/toolkit';
 import {changeCurrentCity, changeOffers, loadOffers, requireAuthorization, setOffersLoadingStatus, changeCurrentOffer, saveAuthInfo, loadFavorite, loadComments, loadOtherOffers} from './action';
 import {TCity, TOffer, TOfferExtended, TComment} from '../types';
 import {MY_CITIES, AuthorizationStatus} from '../const';
-import { toggleFavoriteAction } from './api-actions';
+import {toggleFavoriteAction} from './api-actions';
 
 const getSavedAuthInfo = (): string | null => {
   const data = localStorage.getItem('user-auth-data');
@@ -46,6 +46,11 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+
+      if (action.payload === AuthorizationStatus.NoAuth) {
+        state.favorites = [];
+        state.authInfo = null;
+      }
     })
     .addCase(setOffersLoadingStatus, (state, action) => {
       state.isOffersDataLoading = action.payload;

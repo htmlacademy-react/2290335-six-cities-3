@@ -7,8 +7,7 @@ import CitiesList from './components/cities-list';
 import PlaceCardsList from '../../components/place-card/place-cards-list';
 import Map from '../../components/map/map';
 import SortBar from './components/sort-bar';
-import classNames from 'classnames';
-import EmptySection from './components/empty-section';
+import MainEmpty from './components/main-empty';
 
 function MainPage (): JSX.Element {
   const [activeOffer, setActiveOffer] = useState<TOffer>();
@@ -19,7 +18,6 @@ function MainPage (): JSX.Element {
   const currentCity = useAppSelector((state) => state.currentCity);
   const offers: TOffer[] = useAppSelector((state) => state.offers);
   const filteredOffers = offers.filter((offer) => offer.city.name === currentCity.name);
-  const isEmpty = offers.length === 0;
   const [activeSort, setActiveSort] = useState(SortOption.Popular);
 
   let sortedOffers = filteredOffers;
@@ -36,37 +34,42 @@ function MainPage (): JSX.Element {
     sortedOffers = [...filteredOffers].sort((a, b) => b.rating - a.rating);
   }
 
+  const isEmpty = sortedOffers.length === 0;
+
   return (
-    <main className="page__main page__main--index">
+    <main className={`page__main page__main--index ${isEmpty ? 'page__main--index-empty' : ''}`}>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <CitiesList currentCity = {currentCity}/>
       </div>
       <div className="cities">
-        <div className={classNames('container', 'cities__places-container', {'cities__places-container--empty': isEmpty})}>
-          {isEmpty && <EmptySection/>}
-          <section className="cities__places places">
-            <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
-            <SortBar
-              current={activeSort}
-              setter={setActiveSort}
-            />
-            <PlaceCardsList
-              type = {'root'}
-              offers={sortedOffers}
-              handleHover={handleHover}
-            />
-          </section>
-          <div className="cities__right-section">
-            <Map
-              city={currentCity}
-              offers={filteredOffers}
-              selectedPoint={activeOffer}
-              ClassNamesForMap={ClassNamesForMap.Root}
-            />
+        {isEmpty ? (
+          <MainEmpty cityName={currentCity.name}/>
+        ) : (
+          <div className={`cities__places-container container ${isEmpty ? 'cities__places-container--empty' : ''}`}>
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
+              <SortBar
+                current={activeSort}
+                setter={setActiveSort}
+              />
+              <PlaceCardsList
+                type = {'root'}
+                offers={sortedOffers}
+                handleHover={handleHover}
+              />
+            </section>
+            <div className="cities__right-section">
+              <Map
+                city={currentCity}
+                offers={filteredOffers}
+                selectedPoint={activeOffer}
+                ClassNamesForMap={ClassNamesForMap.Root}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </main>
   );

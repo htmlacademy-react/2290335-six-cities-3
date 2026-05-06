@@ -7,7 +7,7 @@ import {toggleFavoriteAction} from '../../store/api-actions';
 type TPlaceCardProps = {
   typeClassName: 'root' | 'offer' | 'favorites';
   offer: TOffer;
-  handleHover: (offer?:TOffer) => void;
+  handleHover?: (offer?:TOffer) => void;
 }
 
 const getClassName = (typeClassName: string) => {
@@ -29,7 +29,7 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleMouseOn = () => {
-    handleHover(offer);
+    handleHover?.(offer);
   };
   let widthPictureCardImage = 260;
   let heigthPictureCardImage = 200;

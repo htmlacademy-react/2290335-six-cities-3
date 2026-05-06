@@ -23,8 +23,10 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(fetchOffersAction());
-    dispatch(fetchFavoritesAction());
-  }, [dispatch]);
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritesAction());
+    }
+  }, [dispatch, authorizationStatus]);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (

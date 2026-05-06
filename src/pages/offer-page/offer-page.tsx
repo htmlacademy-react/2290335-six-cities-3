@@ -4,7 +4,8 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TOffer, TOfferExtended, TComment} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
-import {ClassNamesForMap, AppRoute, AuthorizationStatus} from '../../const';
+import {ClassNamesForMap, AppRoute, AuthorizationStatus, APIRoute} from '../../const';
+import {pluralize, capitalize} from '../../utils';
 import {api} from '../../store';
 import NotFoundPage from '../not-found-page/not-found-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
@@ -25,7 +26,6 @@ function OfferPage(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const [offer, setOffer] = useState<TOfferExtended | null>(null);
   const [nearbyOffers, setNearbyOffers] = useState<TOffer[] | null>(null);
-  const [, setActiveOffer] = useState<TOffer | undefined>();
   const [isLoading, setIsLoading] = useState(true);
 
   const updateComments = () => {
@@ -52,22 +52,29 @@ function OfferPage(): JSX.Element {
     }
     let isMounted = true;
 
-    Promise.all([
-      api.get<TOfferExtended>(`offers/${urlId}`),
-      api.get<TOffer[]>(`offers/${urlId}/nearby`),
-      api.get<TComment[]>(`comments/${urlId}`)
+    Promise.allSettled([
+      api.get<TOfferExtended>(`${APIRoute.Offers}/${urlId}`),
+      api.get<TOffer[]>(`${APIRoute.Offers}/${urlId}/nearby`),
+      api.get<TComment[]>(`${APIRoute.Comments}/${urlId}`)
     ])
-      .then(([offerData, nearbyData, commentsData]) => {
-        if (isMounted) {
-          setOffer(offerData.data);
-          dispatch(loadOtherOffers(nearbyData.data));
-          setNearbyOffers(nearbyData.data);
-          dispatch(loadComments(commentsData.data));
+      .then(([offerResult, nearbyResult, commentsResult]) => {
+        if (!isMounted) {
+          return;
         }
-      })
-      .catch(() => {
-        if (isMounted) {
+
+        if (offerResult.status === 'fulfilled') {
+          setOffer(offerResult.value.data);
+        } else {
           setOffer(null);
+        }
+
+        if (nearbyResult.status === 'fulfilled') {
+          dispatch(loadOtherOffers(nearbyResult.value.data));
+          setNearbyOffers(nearbyResult.value.data);
+        }
+
+        if (commentsResult.status === 'fulfilled') {
+          dispatch(loadComments(commentsResult.value.data));
         }
       })
       .finally(() => {
@@ -81,9 +88,6 @@ function OfferPage(): JSX.Element {
     };
   }, [urlId, dispatch]);
 
-  const handleHover = (selectedOffer?: TOffer) => {
-    setActiveOffer(selectedOffer);
-  };
 
   if (isLoading) {
     return <LoadingScreen/>;
@@ -157,9 +161,9 @@ function OfferPage(): JSX.Element {
               <span className="offer__rating-value rating__value">{rating}</span>
             </div>
             <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire">{type}</li>
-              <li className="offer__feature offer__feature--bedrooms">{bedrooms} Bedrooms</li>
-              <li className="offer__feature offer__feature--adults"> Max {maxAdults} adults</li>
+              <li className="offer__feature offer__feature--entire">{capitalize(type)}</li>
+              <li className="offer__feature offer__feature--bedrooms">{pluralize(bedrooms, 'Bedroom', 'Bedrooms')}</li>
+              <li className="offer__feature offer__feature--adults">Max {pluralize(maxAdults, 'adult', 'adults')}</li>
             </ul>
             <div className="offer__price">
               <b className="offer__price-value">&euro;{price}</b>
@@ -188,9 +192,7 @@ function OfferPage(): JSX.Element {
           />}
       </section>
 
-      <NearPlacesSection
-        handleHover = {handleHover}
-      />
+      <NearPlacesSection/>
     </main>
   );
 }

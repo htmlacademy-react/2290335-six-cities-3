@@ -1,13 +1,15 @@
-import {useMemo, useState} from 'react';
-import PlaceCardsList from '../../components/place-card/place-cards-list';
+import {useMemo} from 'react';
 import {TOffer} from '../../types';
 import {useAppSelector} from '../../hooks';
+import {AppRoute} from '../../const';
+import {Link} from 'react-router-dom';
+import PlaceCardsList from '../../components/place-card/place-cards-list';
+import FavoriteEmpty from './components/favorite-empty';
 
 type GroupedOffers = Record<string, TOffer[]>;
 
 const FavoritePage = (): JSX.Element => {
   const favorites = useAppSelector((state) => state.favorites);
-  const [, setActiveOffer] = useState<TOffer>();
 
   const groupedByCity = useMemo(() =>
     favorites.reduce<GroupedOffers>((acc, offer) => {
@@ -21,34 +23,33 @@ const FavoritePage = (): JSX.Element => {
       return acc;
     }, {}), [favorites]);
 
-  const handleHover = (offer?: TOffer) => {
-    setActiveOffer(offer);
-  };
-
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
-        <section className="favorites">
-          <h1 className="favorites__title">Saved listing</h1>
-          <ul className="favorites__list">
-            {Object.entries(groupedByCity).map(([cityName, cityOffers]) => (
-              <li className="favorites__locations-items" key={cityName}>
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>{cityName}</span>
-                    </a>
+        {favorites.length !== 0 ? (
+          <section className="favorites">
+            <h1 className="favorites__title">Saved listing</h1>
+            <ul className="favorites__list">
+              {Object.entries(groupedByCity).map(([cityName, cityOffers]) => (
+                <li className="favorites__locations-items" key={cityName}>
+                  <div className="favorites__locations locations locations--current">
+                    <div className="locations__item">
+                      <Link className="locations__item-link" to={AppRoute.Root}>
+                        <span>{cityName}</span>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-                <PlaceCardsList
-                  offers={cityOffers}
-                  type={'favorites'}
-                  handleHover = {handleHover}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
+                  <PlaceCardsList
+                    offers={cityOffers}
+                    type={'favorites'}
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : (
+          <FavoriteEmpty/>
+        )}
       </div>
     </main>
   );

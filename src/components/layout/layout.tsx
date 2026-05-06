@@ -3,7 +3,8 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/api-actions';
 
-const getLayoutState = (pathname: AppRoute) => {
+
+const getLayoutState = (pathname: AppRoute, favoriteCount: number) => {
   let rootClassName = '';
   let linkClassName = '';
   let shouldRenderUser = true;
@@ -16,6 +17,7 @@ const getLayoutState = (pathname: AppRoute) => {
     rootClassName = 'page page--gray page--login';
     shouldRenderUser = false;
   } else if (pathname === AppRoute.Favorites) {
+    rootClassName = favoriteCount === 0 ? 'page page--favorites-empty' : 'page';
     shouldRenderFooter = true;
   }
 
@@ -24,11 +26,12 @@ const getLayoutState = (pathname: AppRoute) => {
 
 export default function Layout() {
   const {pathname} = useLocation();
-  const {rootClassName, linkClassName, shouldRenderUser, shouldRenderFooter} = getLayoutState(pathname as AppRoute);
+  const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const userEmail = useAppSelector((state) => state.authInfo);
-  const dispatch = useAppDispatch();
   const favorites = useAppSelector((state) => state.favorites);
+
+  const {rootClassName, linkClassName, shouldRenderUser, shouldRenderFooter} = getLayoutState(pathname as AppRoute, favorites.length);
   const favoriteCount = favorites.length;
 
   return (
@@ -91,14 +94,14 @@ export default function Layout() {
       <Outlet/>
       {shouldRenderFooter ? (
         <footer className="footer container">
-          <a className="footer__logo-link" href="main.html">
+          <Link className="footer__logo-link" to={AppRoute.Root}>
             <img className="footer__logo"
               src="img/logo.svg"
               alt="6 cities logo"
               width="64"
               height="33"
             />
-          </a>
+          </Link>
         </footer>
       ) : null}
     </div>

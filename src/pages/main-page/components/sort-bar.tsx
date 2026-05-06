@@ -1,7 +1,6 @@
 import { SortOption, SORT_OPTIONS } from './const';
 import { useEffect } from 'react';
 import { useBoolean } from '../../../hooks/boolean';
-import classNames from 'classnames';
 
 type SortBarProps = {
   current: SortOption;
@@ -36,15 +35,10 @@ const SortBar = ({current, setter}: SortBarProps): JSX.Element => {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={classNames('places__options', 'places__options--custom', {
-        'places__options--opened': isOn,
-      })}
-      >
+      <ul className={`places__options places__options--custom ${isOn ? 'places__options--opened' : ''}`}>
         {SORT_OPTIONS.map((option, index) => (
           <li
-            className={classNames('places__option', {
-              'places__option--active': selectedOption === option,
-            })}
+            className={`places__option ${selectedOption === option ? 'places__option--active' : ''}`}
             key={option}
             onClick={() => setter(index)}
             tabIndex={0}

@@ -4,7 +4,7 @@ import PlaceCard from './place-card';
 type TPlaceCardsListProps = {
   type: 'root' | 'offer' | 'favorites';
   offers: TOffer[];
-  handleHover: (offer?:TOffer) => void;
+  handleHover?: (offer?:TOffer) => void;
 }
 
 const ListClassName = {

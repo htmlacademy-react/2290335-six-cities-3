@@ -1,6 +1,8 @@
 import {useRef, FormEvent} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
+import {Link} from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 const LoginPage = (): JSX.Element => {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -58,9 +60,9 @@ const LoginPage = (): JSX.Element => {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="#">
+            <Link className="locations__item-link" to={AppRoute.Root}>
               <span>Amsterdam</span>
-            </a>
+            </Link>
           </div>
         </section>
       </div>
