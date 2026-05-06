@@ -4,7 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TOffer, TOfferExtended, TComment} from '../../types';
 import {OfferInside} from './components/offer-inside';
 import {OfferHost} from './components/offer-host';
-import {ClassNamesForMap, AppRoute, AuthorizationStatus} from '../../const';
+import {ClassNamesForMap, AppRoute, AuthorizationStatus, APIRoute} from '../../const';
 import {api} from '../../store';
 import NotFoundPage from '../not-found-page/not-found-page';
 import ReviewsSection from './components/reviews-section/reviews-section';
@@ -51,22 +51,29 @@ function OfferPage(): JSX.Element {
     }
     let isMounted = true;
 
-    Promise.all([
-      api.get<TOfferExtended>(`offers/${urlId}`),
-      api.get<TOffer[]>(`offers/${urlId}/nearby`),
-      api.get<TComment[]>(`comments/${urlId}`)
+    Promise.allSettled([
+      api.get<TOfferExtended>(`${APIRoute.Offers}/${urlId}`),
+      api.get<TOffer[]>(`${APIRoute.Offers}/${urlId}/nearby`),
+      api.get<TComment[]>(`${APIRoute.Comments}/${urlId}`)
     ])
-      .then(([offerData, nearbyData, commentsData]) => {
-        if (isMounted) {
-          setOffer(offerData.data);
-          dispatch(loadOtherOffers(nearbyData.data));
-          setNearbyOffers(nearbyData.data);
-          dispatch(loadComments(commentsData.data));
+      .then(([offerResult, nearbyResult, commentsResult]) => {
+        if (!isMounted) {
+          return;
         }
-      })
-      .catch(() => {
-        if (isMounted) {
+
+        if (offerResult.status === 'fulfilled') {
+          setOffer(offerResult.value.data);
+        } else {
           setOffer(null);
+        }
+
+        if (nearbyResult.status === 'fulfilled') {
+          dispatch(loadOtherOffers(nearbyResult.value.data));
+          setNearbyOffers(nearbyResult.value.data);
+        }
+
+        if (commentsResult.status === 'fulfilled') {
+          dispatch(loadComments(commentsResult.value.data));
         }
       })
       .finally(() => {
@@ -79,6 +86,7 @@ function OfferPage(): JSX.Element {
       isMounted = false;
     };
   }, [urlId, dispatch]);
+
 
   if (isLoading) {
     return <LoadingScreen/>;
