@@ -52,12 +52,12 @@ function MainPage (): JSX.Element {
               <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
               <SortBar
                 current={activeSort}
-                setter={setActiveSort}
+                onSetter={setActiveSort}
               />
               <PlaceCardsList
                 type = {'root'}
                 offers={sortedOffers}
-                handleHover={handleHover}
+                onHandleHover={handleHover}
               />
             </section>
             <div className="cities__right-section">

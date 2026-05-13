@@ -7,7 +7,7 @@ import {toggleFavoriteAction} from '../../store/api-actions';
 type TPlaceCardProps = {
   typeClassName: 'root' | 'offer' | 'favorites';
   offer: TOffer;
-  handleHover?: (offer?:TOffer) => void;
+  onHandleHover?: (offer?:TOffer) => void;
 }
 
 const getClassName = (typeClassName: string) => {
@@ -23,13 +23,16 @@ const getClassName = (typeClassName: string) => {
   }
 };
 
-function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
+function PlaceCard({typeClassName, offer, onHandleHover}: TPlaceCardProps) {
   const {id, title, previewImage, price, isPremium, isFavorite, type, rating} = offer;
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleMouseOn = () => {
-    handleHover?.(offer);
+    onHandleHover?.(offer);
+  };
+  const handleMouseLeave = () => {
+    onHandleHover?.(undefined);
   };
   let widthPictureCardImage = 260;
   let heigthPictureCardImage = 200;
@@ -48,6 +51,7 @@ function PlaceCard({typeClassName, offer, handleHover}: TPlaceCardProps) {
       className={`${getClassName(typeClassName)}__card place-card`}
       key={id}
       onMouseEnter={handleMouseOn}
+      onMouseLeave={handleMouseLeave}
     >
       {isPremium &&
         <div className="place-card__mark">

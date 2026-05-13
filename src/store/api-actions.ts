@@ -3,7 +3,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {TOffer, UserData, AuthData, AppDispatch, State} from '../types.ts';
 import {loadOffers, requireAuthorization, setOffersLoadingStatus, redirectToRoute, saveAuthInfo, loadFavorite} from './action';
 import {saveToken, dropToken} from '../services/token';
-import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
+import {APIRoute, AuthorizationStatus, AppRoute, USER_AUTH_DATA} from '../const';
 
 export const toggleFavoriteAction = createAsyncThunk<
   TOffer,
@@ -71,7 +71,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    localStorage.setItem('user-auth-data', JSON.stringify(email));
+    localStorage.setItem(USER_AUTH_DATA, JSON.stringify(email));
     dispatch(saveAuthInfo(email));
     dispatch(redirectToRoute(AppRoute.Root));
   },
@@ -86,7 +86,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    localStorage.removeItem('user-auth-data');
+    localStorage.removeItem(USER_AUTH_DATA);
     dispatch(saveAuthInfo(null));
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },

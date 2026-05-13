@@ -38,6 +38,7 @@ const LoginPage = (): JSX.Element => {
                 type="email"
                 name="email"
                 placeholder="Email"
+                required
               />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
@@ -48,6 +49,9 @@ const LoginPage = (): JSX.Element => {
                 type="password"
                 name="password"
                 placeholder="Password"
+                required
+                pattern="^(?=.*[A-Za-zА-Яа-я])(?=.*\d)\S+$"
+                title="Пароль должен содержать минимум одну букву и одну цифры без пробелов"
               />
             </div>
             <button

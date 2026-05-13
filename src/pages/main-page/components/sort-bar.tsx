@@ -4,11 +4,11 @@ import { useBoolean } from '../../../hooks/boolean';
 
 type SortBarProps = {
   current: SortOption;
-  setter: (option: SortOption) => void;
+  onSetter: (option: SortOption) => void;
 }
 
-const SortBar = ({current, setter}: SortBarProps): JSX.Element => {
-  const { isOn, off, toggle} = useBoolean(false);
+const SortBar = ({current, onSetter}: SortBarProps): JSX.Element => {
+  const {isOn, off, toggle} = useBoolean(false);
   useEffect(() => {
     if (isOn) {
       const onEscKeyDown = (evt: KeyboardEvent) => {
@@ -40,7 +40,7 @@ const SortBar = ({current, setter}: SortBarProps): JSX.Element => {
           <li
             className={`places__option ${selectedOption === option ? 'places__option--active' : ''}`}
             key={option}
-            onClick={() => setter(index)}
+            onClick={() => onSetter(index)}
             tabIndex={0}
           >
             {option}

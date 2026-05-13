@@ -4,7 +4,7 @@ import PlaceCard from './place-card';
 type TPlaceCardsListProps = {
   type: 'root' | 'offer' | 'favorites';
   offers: TOffer[];
-  handleHover?: (offer?:TOffer) => void;
+  onHandleHover?: (offer?:TOffer) => void;
 }
 
 const ListClassName = {
@@ -13,14 +13,14 @@ const ListClassName = {
   favorites: 'favorites__places',
 } as const;
 
-const PlaceCardsList = ({type, offers, handleHover}: TPlaceCardsListProps):JSX.Element => (
+const PlaceCardsList = ({type, offers, onHandleHover}: TPlaceCardsListProps):JSX.Element => (
   <div className={ListClassName[type] || ''}>
     {offers.map((offer: TOffer) => (
       <PlaceCard
         typeClassName = {type}
         offer = {offer}
         key = {offer.id}
-        handleHover = {handleHover}
+        onHandleHover = {onHandleHover}
       />
     ))}
   </div>

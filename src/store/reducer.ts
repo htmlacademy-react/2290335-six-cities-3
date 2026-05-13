@@ -1,11 +1,11 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {changeCurrentCity, changeOffers, loadOffers, requireAuthorization, setOffersLoadingStatus, changeCurrentOffer, saveAuthInfo, loadFavorite, loadComments, loadOtherOffers} from './action';
 import {TCity, TOffer, TOfferExtended, TComment} from '../types';
-import {MY_CITIES, AuthorizationStatus} from '../const';
+import {MY_CITIES, AuthorizationStatus, USER_AUTH_DATA} from '../const';
 import {toggleFavoriteAction} from './api-actions';
 
 const getSavedAuthInfo = (): string | null => {
-  const data = localStorage.getItem('user-auth-data');
+  const data = localStorage.getItem(USER_AUTH_DATA);
   return data ? (JSON.parse(data) as string) : null;
 };
 

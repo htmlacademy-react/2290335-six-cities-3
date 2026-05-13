@@ -28,6 +28,6 @@ const CitiesList = ({currentCity}: TCitiesList): JSX.Element => {
     </section>
   );
 };
-// classNames('clocations__item-link', 'tabs__item', {'tabs__item--active': currentCity})
+
 export default CitiesList;
 

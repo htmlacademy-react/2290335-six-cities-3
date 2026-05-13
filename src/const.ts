@@ -1,3 +1,5 @@
+const USER_AUTH_DATA = 'user-auth-data';
+
 enum AppRoute {
   Root = '/',
   Login = '/login',
@@ -30,7 +32,7 @@ const MY_CITIES = [
     location: {
       latitude: 48.8566,
       longitude: 2.3522,
-      zoom: 8
+      zoom: 12
     }
   },
   {
@@ -38,7 +40,7 @@ const MY_CITIES = [
     location: {
       latitude: 50.9375,
       longitude: 6.9603,
-      zoom: 8
+      zoom: 12
     }
   },
   {
@@ -46,7 +48,7 @@ const MY_CITIES = [
     location: {
       latitude: 50.8503,
       longitude: 4.3517,
-      zoom: 8
+      zoom: 12
     }
   },
   {
@@ -54,7 +56,7 @@ const MY_CITIES = [
     location: {
       latitude: 52.3702,
       longitude: 4.8952,
-      zoom: 8
+      zoom: 12
     }
   },
   {
@@ -62,7 +64,7 @@ const MY_CITIES = [
     location: {
       latitude: 53.5511,
       longitude: 9.9937,
-      zoom: 8
+      zoom: 12
     }
   },
   {
@@ -70,10 +72,10 @@ const MY_CITIES = [
     location: {
       latitude: 51.2277,
       longitude: 6.7735,
-      zoom: 8
+      zoom: 12
     }
   },
 ];
 
 
-export {MY_CITIES, AppRoute, AuthorizationStatus, ClassNamesForMap, APIRoute};
+export {MY_CITIES, AppRoute, AuthorizationStatus, ClassNamesForMap, APIRoute, USER_AUTH_DATA};

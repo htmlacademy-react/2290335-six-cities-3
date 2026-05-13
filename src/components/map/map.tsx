@@ -4,22 +4,16 @@ import 'leaflet/dist/leaflet.css';
 import useMap from './use-map';
 import {MapProps} from '../../types';
 
-const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
-
-const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
-
 const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconUrl: 'img/pin.svg',
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39]
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconUrl: 'img/pin-active.svg',
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39]
 });
 
 function Map(props: MapProps): JSX.Element {
@@ -30,17 +24,13 @@ function Map(props: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
-      map.panTo([city.location.latitude, city.location.longitude]);
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
     }
   }, [city, map]);
 
   useEffect(() => {
-    if (map) {
+    if (map && offers) {
       const markerLayer = layerGroup().addTo(map);
-
-      if (offers === null) {
-        return;
-      }
 
       offers.forEach((offer) => {
         const marker = new Marker({
@@ -48,12 +38,10 @@ function Map(props: MapProps): JSX.Element {
           lng: offer.location.longitude
         });
 
+        const isCurrent = !!selectedPoint && offer.id === selectedPoint.id;
+
         marker
-          .setIcon(
-            !!selectedPoint && offer.id === selectedPoint.id
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
+          .setIcon(isCurrent ? currentCustomIcon : defaultCustomIcon)
           .addTo(markerLayer);
       });
 
@@ -63,7 +51,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, offers, selectedPoint]);
 
-  return <section className={`${ClassNamesForMap} map`} style={{height: '740px'}} ref={mapRef}/>;
+  return <section className={`${ClassNamesForMap} map`} ref={mapRef}/>;
 }
 
 export default Map;
